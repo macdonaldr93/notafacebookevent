@@ -1,4 +1,11 @@
-import { Alert, Box, Button, Container, Typography } from '@mui/material';
+import {
+  Alert,
+  Box,
+  Button,
+  Container,
+  Paper,
+  Typography,
+} from '@mui/material';
 import { doc, DocumentReference } from 'firebase/firestore';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
@@ -44,6 +51,13 @@ export default function EventsId({ id }: EventsIdProps) {
             {data?.description}
           </Typography>
         </Box>
+        <Paper>
+          <Typography>3 people are going</Typography>
+        </Paper>
+        <Typography>Timeline</Typography>
+        <Paper>
+          <Typography>3 people are going</Typography>
+        </Paper>
       </main>
     </Container>
   );
