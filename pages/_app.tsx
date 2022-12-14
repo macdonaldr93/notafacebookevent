@@ -4,10 +4,14 @@ import { AppProps } from 'next/app';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider, EmotionCache } from '@emotion/react';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { FirebaseAppProvider, FirestoreProvider } from 'reactfire';
 import { theme } from '../theme';
 import { createEmotionCache } from '../utils/createEmotionCache';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { firebaseConfig } from '../config/firebase';
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -20,17 +24,27 @@ export default function MyApp({
   emotionCache = clientSideEmotionCache,
   pageProps,
 }: MyAppProps) {
+  const app = initializeApp(firebaseConfig);
+  const firestore = getFirestore(app);
+
   return (
-    <CacheProvider value={emotionCache}>
-      <Head>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-      </Head>
-      <ThemeProvider theme={theme}>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <CssBaseline />
-          <Component {...pageProps} />
-        </LocalizationProvider>
-      </ThemeProvider>
-    </CacheProvider>
+    <FirebaseAppProvider firebaseApp={app}>
+      <FirestoreProvider sdk={firestore}>
+        <CacheProvider value={emotionCache}>
+          <Head>
+            <meta
+              name="viewport"
+              content="initial-scale=1, width=device-width"
+            />
+          </Head>
+          <ThemeProvider theme={theme}>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <CssBaseline />
+              <Component {...pageProps} />
+            </LocalizationProvider>
+          </ThemeProvider>
+        </CacheProvider>
+      </FirestoreProvider>
+    </FirebaseAppProvider>
   );
 }
