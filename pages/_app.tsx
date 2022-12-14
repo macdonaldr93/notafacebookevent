@@ -7,11 +7,11 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { FirebaseAppProvider, FirestoreProvider } from 'reactfire';
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
 import { theme } from '../theme';
 import { createEmotionCache } from '../utils/createEmotionCache';
 import { firebaseConfig } from '../config/firebase';
-import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
 
 const clientSideEmotionCache = createEmotionCache();
 
