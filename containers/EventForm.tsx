@@ -5,6 +5,7 @@ import Dropzone from 'react-dropzone';
 import { Control, Controller } from 'react-hook-form';
 
 export interface EventFormValues {
+  adminPassword: string;
   coverMedia: File;
   description: string;
   name: string;
@@ -14,10 +15,11 @@ export interface EventFormValues {
 
 export interface EventFormProps {
   control: Control<EventFormValues>;
+  isSubmitting?: boolean;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
 }
 
-export function EventForm({ control, onSubmit }: EventFormProps) {
+export function EventForm({ control, isSubmitting, onSubmit }: EventFormProps) {
   return (
     <form onSubmit={onSubmit}>
       <Grid container spacing={4}>
@@ -108,7 +110,27 @@ export function EventForm({ control, onSubmit }: EventFormProps) {
           />
         </Grid>
         <Grid item xs={12}>
-          <Button type="submit" variant="contained">
+          <Controller
+            name="adminPassword"
+            control={control}
+            rules={{
+              required: 'Required',
+              minLength: { value: 4, message: 'Must be longer than 4 letters' },
+            }}
+            render={({ field, fieldState }) => (
+              <TextField
+                label="Admin password"
+                type="password"
+                error={Boolean(fieldState.error)}
+                helperText={fieldState.error?.message}
+                fullWidth
+                {...field}
+              />
+            )}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Button type="submit" variant="contained" disabled={isSubmitting}>
             Create
           </Button>
         </Grid>
