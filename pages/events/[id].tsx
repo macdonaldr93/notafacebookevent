@@ -9,8 +9,6 @@ export interface EventsIdProps {
 }
 
 export default function EventsId({ id }: EventsIdProps) {
-  console.log('eventId', id);
-
   const firestore = useFirestore();
   const eventRef = doc(firestore, 'events', id);
   const { status, data } = useFirestoreDocData(eventRef);

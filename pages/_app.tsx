@@ -4,8 +4,6 @@ import { AppProps } from 'next/app';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider, EmotionCache } from '@emotion/react';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers';
 import { FirebaseAppProvider, FirestoreProvider } from 'reactfire';
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
@@ -38,10 +36,8 @@ export default function MyApp({
             />
           </Head>
           <ThemeProvider theme={theme}>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <CssBaseline />
-              <Component {...pageProps} />
-            </LocalizationProvider>
+            <CssBaseline />
+            <Component {...pageProps} />
           </ThemeProvider>
         </CacheProvider>
       </FirestoreProvider>
