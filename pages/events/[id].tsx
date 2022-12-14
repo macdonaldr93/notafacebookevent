@@ -1,8 +1,9 @@
-import { Container, Typography } from '@mui/material';
-import { doc } from 'firebase/firestore';
+import { Alert, Box, Button, Container, Typography } from '@mui/material';
+import { doc, DocumentReference } from 'firebase/firestore';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import { useFirestore, useFirestoreDocData } from 'reactfire';
+import { EventData } from '../../types/events';
 
 export interface EventsIdProps {
   id: string;
@@ -10,7 +11,7 @@ export interface EventsIdProps {
 
 export default function EventsId({ id }: EventsIdProps) {
   const firestore = useFirestore();
-  const eventRef = doc(firestore, 'events', id);
+  const eventRef = doc(firestore, 'events', id) as DocumentReference<EventData>;
   const { status, data } = useFirestoreDocData(eventRef);
 
   return (
@@ -22,9 +23,27 @@ export default function EventsId({ id }: EventsIdProps) {
       </Head>
       <main id="main">
         {status === 'loading' && <p>Loading...</p>}
+        <Typography variant="subtitle1" component="p" gutterBottom>
+          {data?.startAt?.toDate().toLocaleDateString()}
+        </Typography>
         <Typography variant="h2" component="h1" gutterBottom>
           {data?.name}
         </Typography>
+        <Alert
+          severity="info"
+          action={
+            <Button variant="outlined" size="small">
+              Going
+            </Button>
+          }
+        >
+          Ryan invited you
+        </Alert>
+        <Box>
+          <Typography variant="body1" component="p" gutterBottom>
+            {data?.description}
+          </Typography>
+        </Box>
       </main>
     </Container>
   );
