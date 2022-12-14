@@ -9,5 +9,9 @@ service cloud.firestore {
       allow create;
       allow read: if resource.data.visibility == 'public';
     }
+
+    match /events/{eventId}/admin {
+      allow create;
+    }
   }
 }
