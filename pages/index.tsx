@@ -1,6 +1,8 @@
 import {
   Autocomplete,
+  Box,
   Button,
+  Container,
   Grid,
   TextField,
   Typography,
@@ -38,7 +40,7 @@ export default function Home() {
   };
 
   return (
-    <>
+    <Container>
       <Head>
         <title>Not a Facebook event</title>
         <meta name="description" content="Host events off of Facebook" />
@@ -93,17 +95,11 @@ export default function Home() {
                 name="location"
                 control={control}
                 render={({ field, fieldState }) => (
-                  <Autocomplete
-                    options={['Sudbury']}
+                  <TextField
+                    label="Location"
+                    error={Boolean(fieldState.error)}
+                    helperText={fieldState.error?.message}
                     fullWidth
-                    renderInput={inputProps => (
-                      <TextField
-                        label="Location"
-                        error={Boolean(fieldState.error)}
-                        helperText={fieldState.error?.message}
-                        {...inputProps}
-                      />
-                    )}
                     {...field}
                   />
                 )}
@@ -151,6 +147,6 @@ export default function Home() {
           </Grid>
         </form>
       </main>
-    </>
+    </Container>
   );
 }
