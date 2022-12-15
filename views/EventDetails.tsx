@@ -13,6 +13,7 @@ import {
   Grid,
   List,
   ListItem,
+  ListItemButton,
   ListItemIcon,
   ListItemText,
   Paper,
@@ -89,7 +90,7 @@ export function EventDetails({
     try {
       await navigator.share({ title: data?.name, url: window.location.href });
     } catch (err) {
-      copy(`${data?.name}\n\n${window.location.href}`);
+      copy(window.location.href);
       enqueueSnackbar('Copied to clipboard', { variant: 'success' });
       console.error(err);
     }
@@ -163,14 +164,6 @@ export function EventDetails({
                 </ListItem>
                 <ListItem>
                   <ListItemIcon>
-                    <MapOutlined color="secondary" />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={data?.location ?? 'No location specified'}
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon>
                     <People color="secondary" />
                   </ListItemIcon>
                   <ListItemText
@@ -181,6 +174,16 @@ export function EventDetails({
                     )} going (${guestNames})`}
                   />
                 </ListItem>
+                {data?.locationUrl && (
+                  <ListItem disablePadding>
+                    <ListItemButton component="a" href={data.locationUrl}>
+                      <ListItemIcon>
+                        <MapOutlined color="secondary" />
+                      </ListItemIcon>
+                      <ListItemText primary="Google Maps" />
+                    </ListItemButton>
+                  </ListItem>
+                )}
               </List>
               <Typography variant="body1" component="p">
                 {data?.description}

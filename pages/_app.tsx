@@ -52,7 +52,6 @@ export default function MyApp({
                       component="a"
                       href="/"
                       sx={{
-                        fontFamily: 'monospace',
                         fontWeight: 700,
                         flexGrow: 1,
                         color: 'inherit',
