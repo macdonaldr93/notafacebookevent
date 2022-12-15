@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Head>
-        <title>Not a Facebook event</title>
+        <title>Not a Facebook Event</title>
         <meta name="description" content="Host events off of Facebook" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

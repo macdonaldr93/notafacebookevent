@@ -1,4 +1,5 @@
 import { Button, Grid, TextField } from '@mui/material';
+import { Box } from '@mui/system';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { FormEvent } from 'react';
 import Dropzone from 'react-dropzone';
@@ -27,7 +28,7 @@ export function EventForm({ control, isSubmitting, onSubmit }: EventFormProps) {
           <Controller
             name="name"
             control={control}
-            rules={{ required: 'Required' }}
+            rules={{ required: 'This is required' }}
             render={({ field, fieldState }) => (
               <TextField
                 label="Event name"
@@ -43,7 +44,7 @@ export function EventForm({ control, isSubmitting, onSubmit }: EventFormProps) {
           <Controller
             name="startAt"
             control={control}
-            rules={{ required: 'Required' }}
+            rules={{ required: 'This is required' }}
             render={({ field, fieldState }) => (
               <DateTimePicker
                 label="Event start date"
@@ -93,7 +94,7 @@ export function EventForm({ control, isSubmitting, onSubmit }: EventFormProps) {
             )}
           />
         </Grid>
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <Controller
             name="coverMedia"
             control={control}
@@ -108,21 +109,27 @@ export function EventForm({ control, isSubmitting, onSubmit }: EventFormProps) {
               </Dropzone>
             )}
           />
-        </Grid>
+        </Grid> */}
         <Grid item xs={12}>
           <Controller
             name="adminPassword"
             control={control}
             rules={{
-              required: 'Required',
-              minLength: { value: 4, message: 'Must be longer than 4 letters' },
+              required: 'This is required',
+              minLength: {
+                value: 4,
+                message: 'This must be longer than 4 letters',
+              },
             }}
             render={({ field, fieldState }) => (
               <TextField
                 label="Admin password"
                 type="password"
                 error={Boolean(fieldState.error)}
-                helperText={fieldState.error?.message}
+                helperText={
+                  fieldState.error?.message ??
+                  "You'll use this to edit your event in the future"
+                }
                 fullWidth
                 {...field}
               />
@@ -130,7 +137,12 @@ export function EventForm({ control, isSubmitting, onSubmit }: EventFormProps) {
           />
         </Grid>
         <Grid item xs={12}>
-          <Button type="submit" variant="contained" disabled={isSubmitting}>
+          <Button
+            size="large"
+            type="submit"
+            variant="contained"
+            disabled={isSubmitting}
+          >
             Create
           </Button>
         </Grid>

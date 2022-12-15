@@ -7,6 +7,8 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import { FirebaseAppProvider, FirestoreProvider } from 'reactfire';
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
+import { AppBar, Container, Toolbar, Typography } from '@mui/material';
+import { SnackbarProvider, VariantType, useSnackbar } from 'notistack';
 import { theme } from '../theme';
 import { createEmotionCache } from '../utils/createEmotionCache';
 import { firebaseConfig } from '../config/firebase';
@@ -36,8 +38,30 @@ export default function MyApp({
             />
           </Head>
           <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Component {...pageProps} />
+            <SnackbarProvider maxSnack={3}>
+              <CssBaseline />
+              <AppBar position="static">
+                <Container maxWidth="xl">
+                  <Toolbar>
+                    <Typography
+                      variant="h6"
+                      noWrap
+                      component="a"
+                      href="/"
+                      sx={{
+                        fontFamily: 'monospace',
+                        fontWeight: 700,
+                        color: 'inherit',
+                        textDecoration: 'none',
+                      }}
+                    >
+                      NOT A FACEBOOK EVENT
+                    </Typography>
+                  </Toolbar>
+                </Container>
+              </AppBar>
+              <Component {...pageProps} />
+            </SnackbarProvider>
           </ThemeProvider>
         </CacheProvider>
       </FirestoreProvider>

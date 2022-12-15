@@ -1,10 +1,12 @@
 import { Alert, Container, Typography } from '@mui/material';
+import { Box } from '@mui/system';
 import { addDoc, collection, Timestamp } from 'firebase/firestore';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useFirestore } from 'reactfire';
 import { EventForm, EventFormValues } from '../containers';
+import { setEventManagePassword } from '../utils/cookies';
 
 export function EventCreate() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -38,7 +40,7 @@ export function EventCreate() {
     setErrorMessage(null);
 
     if (startAt === '') {
-      return;
+      throw new Error('startAt cannot be blank');
     }
 
     try {
@@ -53,11 +55,7 @@ export function EventCreate() {
         visibility: 'public',
       });
 
-      window.sessionStorage.setItem(
-        `events/${newEvent.id}/managePassword`,
-        adminPassword,
-      );
-
+      setEventManagePassword(newEvent.id, adminPassword);
       router.push(`/events/${newEvent.id}`);
     } catch (err) {
       setErrorMessage('Your event failed to create. Try again');
@@ -67,15 +65,24 @@ export function EventCreate() {
   return (
     <main id="main">
       <Container>
-        <Typography variant="h2" component="h1" gutterBottom>
-          Host an event
-        </Typography>
-        {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
-        <EventForm
-          control={control}
-          isSubmitting={isSubmitting}
-          onSubmit={handleSubmit(onSubmit)}
-        />
+        <Box my={20}>
+          <Typography align="center" variant="h1" gutterBottom>
+            Say goodbye to Facebook
+          </Typography>
+        </Box>
+        <Box mb={7}>
+          <Typography align="center" variant="h2" component="p" gutterBottom>
+            Host events by simply sharing a URL
+          </Typography>
+        </Box>
+        <Box mb={7}>
+          {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+          <EventForm
+            control={control}
+            isSubmitting={isSubmitting}
+            onSubmit={handleSubmit(onSubmit)}
+          />
+        </Box>
       </Container>
     </main>
   );
