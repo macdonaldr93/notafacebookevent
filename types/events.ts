@@ -9,7 +9,12 @@ export interface EventData extends DocumentData {
 
 export interface TimelineData extends DocumentData {
   author: string;
-  postedAt: Timestamp;
+  createdAt: Timestamp;
   text: string;
   visibility: 'public' | 'private';
+}
+
+export interface GuestData extends DocumentData {
+  name: string;
+  createdAt: Timestamp;
 }

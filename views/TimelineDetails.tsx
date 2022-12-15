@@ -21,7 +21,6 @@ export interface TimelineDetailsProps {
 export function TimelineDetails({ eventId, data }: TimelineDetailsProps) {
   const { enqueueSnackbar } = useSnackbar();
   const firestore = useFirestore();
-  const timelineRef = collection(firestore, 'events', eventId, 'timeline');
 
   const {
     control,
@@ -34,12 +33,13 @@ export function TimelineDetails({ eventId, data }: TimelineDetailsProps) {
   });
 
   const onSubmit: SubmitHandler<TimelineFormValues> = async ({ text }) => {
+    const timelineRef = collection(firestore, 'events', eventId, 'timeline');
     const username = getUsername();
 
     try {
       await addDoc(timelineRef, {
         author: username,
-        postedAt: serverTimestamp(),
+        createdAt: serverTimestamp(),
         text,
         visibility: 'public',
       });
@@ -64,7 +64,9 @@ export function TimelineDetails({ eventId, data }: TimelineDetailsProps) {
         <Typography variant="body2">
           {postData?.author}
           {' - '}
-          {formatDistance(postData?.postedAt.toDate(), new Date())}
+          {postData?.createdAt
+            ? formatDistance(postData.createdAt.toDate(), new Date())
+            : ''}
         </Typography>
         <Typography>{postData?.text}</Typography>
       </Box>

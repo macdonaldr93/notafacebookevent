@@ -14,7 +14,7 @@ import {
   useFirestoreDocData,
 } from 'reactfire';
 import { UsernameGuard } from '../../../containers';
-import { EventData, TimelineData } from '../../../types/events';
+import { EventData, GuestData, TimelineData } from '../../../types/events';
 import { EventDetails } from '../../../views/EventDetails';
 
 export interface EventIndex {
@@ -26,10 +26,15 @@ export default function EventIndex({ id }: EventIndex) {
   const eventRef = doc(firestore, 'events', id) as DocumentReference<EventData>;
   const timelineRef = query(
     collection(firestore, 'events', id, 'timeline'),
-    orderBy('postedAt', 'desc'),
+    orderBy('createdAt', 'desc'),
   ) as CollectionReference<TimelineData>;
+  const guestsRef = query(
+    collection(firestore, 'events', id, 'guests'),
+    orderBy('createdAt', 'asc'),
+  ) as CollectionReference<GuestData>;
   const { data } = useFirestoreDocData(eventRef);
   const { data: timelineData } = useFirestoreCollection(timelineRef);
+  const { data: guestsData } = useFirestoreCollection(guestsRef);
 
   return (
     <>
@@ -39,7 +44,12 @@ export default function EventIndex({ id }: EventIndex) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <UsernameGuard>
-        <EventDetails id={id} data={data} timelineData={timelineData} />
+        <EventDetails
+          id={id}
+          data={data}
+          guestsData={guestsData}
+          timelineData={timelineData}
+        />
       </UsernameGuard>
     </>
   );

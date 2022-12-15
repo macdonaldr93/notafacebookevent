@@ -57,13 +57,13 @@ export default function EventsId({ id }: EventsIdProps) {
   }
 
   return (
-    <Container>
-      <Head>
-        <title>{data?.name ?? 'Untitled'} - Not a Facebook Event</title>
-        <meta name="description" content="Host events off of Facebook" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main id="main">
+    <main id="main">
+      <Container>
+        <Head>
+          <title>{data?.name ?? 'Untitled'} - Not a Facebook Event</title>
+          <meta name="description" content="Host events off of Facebook" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
         {status === 'loading' && <p>Loading...</p>}
         <Typography variant="subtitle1" component="p" gutterBottom>
           {data?.startAt?.toDate().toLocaleDateString()}
@@ -93,8 +93,8 @@ export default function EventsId({ id }: EventsIdProps) {
         <Paper>
           <Typography>3 people are going</Typography>
         </Paper>
-      </main>
-    </Container>
+      </Container>
+    </main>
   );
 }
 

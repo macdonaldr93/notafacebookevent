@@ -1,15 +1,20 @@
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /events/{eventId}/timeline/{timelineId} {
+    match /events/{event}/timeline/{timelineId} {
       allow create;
       allow read;
     }
 
-    match /events/{eventId}/admin {
+    match /events/{event}/guests/{guest} {
+      allow create;
+      allow read;
+    }
+
+    match /events/{event}/admin {
       allow create;
     }
 
-    match /events/{eventId} {
+    match /events/{event} {
       allow update, delete: if request.query.token == resource.data.admin.token;
       allow create;
       allow read;

@@ -28,7 +28,6 @@ export function UsernameGuard({ children }: PropsWithChildren<{}>) {
     },
   });
   const onSubmit: SubmitHandler<UsernameFormValues> = ({ username }) => {
-    console.log(username);
     setUsername(username);
     setModalOpen(false);
   };

@@ -15,3 +15,11 @@ export function setEventManagePassword(id: string, value: string) {
 export function getEventManagePassword(id: string) {
   return Cookies.get(`events/${id}/managePassword`);
 }
+
+export function setGoing(id: string, value: boolean) {
+  return Cookies.set(`events/${id}/going`, `${value}`);
+}
+
+export function getGoing(id: string) {
+  return Cookies.get(`events/${id}/going`) === 'true';
+}

@@ -7,11 +7,13 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import { FirebaseAppProvider, FirestoreProvider } from 'reactfire';
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
-import { AppBar, Container, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Container, Toolbar, Typography } from '@mui/material';
 import { SnackbarProvider, VariantType, useSnackbar } from 'notistack';
 import { theme } from '../theme';
 import { createEmotionCache } from '../utils/createEmotionCache';
 import { firebaseConfig } from '../config/firebase';
+import { getUsername } from '../utils/cookies';
+import { AccountCircle } from '@mui/icons-material';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -26,6 +28,7 @@ export default function MyApp({
 }: MyAppProps) {
   const app = initializeApp(firebaseConfig);
   const firestore = getFirestore(app);
+  const username = getUsername();
 
   return (
     <FirebaseAppProvider firebaseApp={app}>
@@ -51,12 +54,29 @@ export default function MyApp({
                       sx={{
                         fontFamily: 'monospace',
                         fontWeight: 700,
+                        flexGrow: 1,
                         color: 'inherit',
                         textDecoration: 'none',
                       }}
                     >
                       NOT A FACEBOOK EVENT
                     </Typography>
+                    {username && (
+                      <Box display="flex" alignItems="center">
+                        <AccountCircle sx={{ mr: 1 }} />
+                        <Typography
+                          variant="h6"
+                          noWrap
+                          sx={{
+                            fontWeight: 700,
+                            color: 'inherit',
+                            textDecoration: 'none',
+                          }}
+                        >
+                          {username}
+                        </Typography>
+                      </Box>
+                    )}
                   </Toolbar>
                 </Container>
               </AppBar>
