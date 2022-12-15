@@ -2,6 +2,7 @@ import {
   CalendarMonth,
   MapOutlined,
   People,
+  Share,
   ThumbUp,
 } from '@mui/icons-material';
 import {
@@ -9,6 +10,7 @@ import {
   Box,
   Container,
   Fab,
+  Grid,
   List,
   ListItem,
   ListItemIcon,
@@ -24,6 +26,7 @@ import {
   QuerySnapshot,
   serverTimestamp,
 } from 'firebase/firestore';
+import copy from 'copy-to-clipboard';
 import pluralize from 'pluralize';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
@@ -69,7 +72,7 @@ export function EventDetails({
         name: username,
         createdAt: serverTimestamp(),
       });
-      await createPost(id, `${username} is going to the event`);
+      await createPost(id, `🙌 ${username} is going to the event`);
       setGoing(id, true);
       enqueueSnackbar('Woohoo!', { variant: 'success' });
     } catch (err) {
@@ -79,6 +82,16 @@ export function EventDetails({
       });
     } finally {
       setPosting(false);
+    }
+  };
+
+  const onShare = async () => {
+    try {
+      await navigator.share({ title: data?.name, url: window.location.href });
+    } catch (err) {
+      copy(`${data?.name}\n\n${window.location.href}`);
+      enqueueSnackbar('Copied to clipboard', { variant: 'success' });
+      console.error(err);
     }
   };
 
@@ -101,17 +114,34 @@ export function EventDetails({
               <Typography variant="h2" component="h1" gutterBottom>
                 {data?.name ?? <Skeleton variant="text" />}
               </Typography>
-              {isGoing ? (
-                <Alert severity="info">You&apos;re going to this event</Alert>
-              ) : (
-                <Fab
-                  color="primary"
-                  variant="extended"
-                  onClick={onGoing}
-                  disabled={posting}
-                >
-                  <ThumbUp sx={{ mr: 1 }} /> Going
-                </Fab>
+              <Grid container spacing={1} justifyContent="center">
+                {!isGoing && (
+                  <Grid item>
+                    <Fab
+                      color="primary"
+                      variant="extended"
+                      onClick={onGoing}
+                      disabled={posting}
+                    >
+                      <ThumbUp sx={{ mr: 1 }} /> Going
+                    </Fab>
+                  </Grid>
+                )}
+                <Grid item>
+                  <Fab
+                    color="secondary"
+                    variant="extended"
+                    onClick={onShare}
+                    disabled={posting}
+                  >
+                    <Share sx={{ mr: 1 }} /> Share
+                  </Fab>
+                </Grid>
+              </Grid>
+              {isGoing && (
+                <Box mt={4}>
+                  <Alert severity="info">You&apos;re going to this event</Alert>
+                </Box>
               )}
             </Box>
             {data?.location && (
