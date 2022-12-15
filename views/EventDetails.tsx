@@ -31,6 +31,7 @@ import { useFirestore } from 'reactfire';
 import { EventData, GuestData, TimelineData } from '../types/events';
 import { getGoing, getUsername, setGoing } from '../utils/cookies';
 import { TimelineDetails } from './TimelineDetails';
+import { useTimeline } from '../hooks/useTimeline';
 
 export interface EventDetailsProps {
   id: string;
@@ -48,6 +49,7 @@ export function EventDetails({
   const [posting, setPosting] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const firestore = useFirestore();
+  const { createPost } = useTimeline();
 
   const isGoing = getGoing(id);
   const startAt = data?.startAt?.toDate();
@@ -67,6 +69,7 @@ export function EventDetails({
         name: username,
         createdAt: serverTimestamp(),
       });
+      await createPost(id, `${username} is going to the event`);
       setGoing(id, true);
       enqueueSnackbar('Woohoo!', { variant: 'success' });
     } catch (err) {
@@ -78,6 +81,10 @@ export function EventDetails({
       setPosting(false);
     }
   };
+
+  const guestNames = guestsData?.docs
+    .map(guest => guest.data().name)
+    .join(', ');
 
   return (
     <main id="main">
@@ -141,7 +148,7 @@ export function EventDetails({
                       'person',
                       guestsData?.size,
                       true,
-                    )} going`}
+                    )} going (${guestNames})`}
                   />
                 </ListItem>
               </List>

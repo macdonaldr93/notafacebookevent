@@ -1,17 +1,11 @@
 import { Box, Paper, Typography } from '@mui/material';
 import { formatDistance } from 'date-fns';
-import {
-  addDoc,
-  collection,
-  QuerySnapshot,
-  serverTimestamp,
-} from 'firebase/firestore';
+import { QuerySnapshot } from 'firebase/firestore';
 import { useSnackbar } from 'notistack';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useFirestore } from 'reactfire';
 import { TimelineForm, TimelineFormValues } from '../containers';
+import { useTimeline } from '../hooks/useTimeline';
 import { TimelineData } from '../types/events';
-import { getUsername } from '../utils/cookies';
 
 export interface TimelineDetailsProps {
   eventId: string;
@@ -20,7 +14,7 @@ export interface TimelineDetailsProps {
 
 export function TimelineDetails({ eventId, data }: TimelineDetailsProps) {
   const { enqueueSnackbar } = useSnackbar();
-  const firestore = useFirestore();
+  const { createPost } = useTimeline();
 
   const {
     control,
@@ -33,20 +27,11 @@ export function TimelineDetails({ eventId, data }: TimelineDetailsProps) {
   });
 
   const onSubmit: SubmitHandler<TimelineFormValues> = async ({ text }) => {
-    const timelineRef = collection(firestore, 'events', eventId, 'timeline');
-    const username = getUsername();
+    const succeeded = await createPost(eventId, text);
 
-    try {
-      await addDoc(timelineRef, {
-        author: username,
-        createdAt: serverTimestamp(),
-        text,
-        visibility: 'public',
-      });
-
+    if (succeeded) {
       enqueueSnackbar('Posted to timeline', { variant: 'success' });
-    } catch (err) {
-      console.error(err);
+    } else {
       enqueueSnackbar('Failed to post to timeline. Try again', {
         variant: 'error',
       });
