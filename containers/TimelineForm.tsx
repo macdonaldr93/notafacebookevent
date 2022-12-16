@@ -20,7 +20,7 @@ export function TimelineForm({
 }: TimelineFormProps) {
   return (
     <form onSubmit={onSubmit}>
-      <Box my={2}>
+      <Box my={4}>
         <Controller
           name="text"
           control={control}
@@ -43,6 +43,7 @@ export function TimelineForm({
         type="submit"
         variant="contained"
         disabled={isSubmitting}
+        fullWidth
       >
         Post
       </Button>
