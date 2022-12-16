@@ -67,7 +67,9 @@ export function EventCreate() {
       <Container maxWidth="md">
         <Box my={10}>
           <Typography align="center" variant="h2" gutterBottom>
-            👋 Say goodbye to Facebook
+            👋 Say goodbye to
+            <br />
+            Facebook events
           </Typography>
         </Box>
         <Box mb={5}>
