@@ -3,20 +3,19 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   TextField,
 } from '@mui/material';
 import { PropsWithChildren, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { getUsername, setUsername } from '../utils/cookies';
+import { useUsername } from '../hooks/useUsername';
 
 export interface UsernameFormValues {
   username: string;
 }
 
 export function UsernameGuard({ children }: PropsWithChildren<{}>) {
-  const username = getUsername();
+  const { username, changeUsername } = useUsername();
   const [modalOpen, setModalOpen] = useState(!username);
   const {
     control,
@@ -28,7 +27,7 @@ export function UsernameGuard({ children }: PropsWithChildren<{}>) {
     },
   });
   const onSubmit: SubmitHandler<UsernameFormValues> = ({ username }) => {
-    setUsername(username);
+    changeUsername(username);
     setModalOpen(false);
   };
 

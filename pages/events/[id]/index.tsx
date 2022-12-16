@@ -1,4 +1,24 @@
-import { Box, Typography } from '@mui/material';
+import {
+  AccessTime,
+  ArrowDropDown,
+  Event,
+  EventAvailable,
+  People,
+  Share,
+  ThumbUp,
+} from '@mui/icons-material';
+import {
+  Box,
+  Fab,
+  Grid,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Paper,
+  Skeleton,
+  Typography,
+} from '@mui/material';
 import { Container } from '@mui/system';
 import {
   collection,
@@ -23,7 +43,7 @@ export interface EventIndex {
   id: string;
 }
 
-function EventIndex({ id }: EventIndex) {
+export default function EventIndex({ id }: EventIndex) {
   const firestore = useFirestore();
   const eventRef = doc(firestore, 'events', id) as DocumentReference<EventData>;
   const timelineRef = query(
@@ -34,11 +54,87 @@ function EventIndex({ id }: EventIndex) {
     collection(firestore, 'events', id, 'guests'),
     orderBy('createdAt', 'asc'),
   ) as CollectionReference<GuestData>;
-  const { data } = useFirestoreDoc(eventRef);
+  const { status, data } = useFirestoreDoc(eventRef);
   const { data: timelineData } = useFirestoreCollection(timelineRef);
   const { data: guestsData } = useFirestoreCollection(guestsRef);
+  const eventData = data?.data();
 
-  if (!data?.exists()) {
+  if (status === 'loading') {
+    return (
+      <>
+        <Head>
+          <title>... - Not a Facebook Event</title>
+          <meta name="description" content="Host events off of Facebook" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <main id="main">
+          <Container maxWidth="md">
+            <Box my={10}>
+              <section>
+                <Box textAlign="center">
+                  <Box
+                    flexDirection="row"
+                    justifyContent="center"
+                    display="flex"
+                  >
+                    <AccessTime color="secondary" sx={{ mr: 1 }} />
+                    <Typography variant="subtitle1" component="p" gutterBottom>
+                      <Skeleton variant="text" />
+                    </Typography>
+                  </Box>
+                  <Typography variant="h2" component="h1" gutterBottom>
+                    <Skeleton variant="text" />
+                  </Typography>
+                  <Grid container spacing={1} justifyContent="center">
+                    <Grid item>
+                      <Fab color="primary" variant="extended" disabled>
+                        <ThumbUp sx={{ mr: 1 }} /> Going
+                      </Fab>
+                    </Grid>
+                    <Grid item>
+                      <Fab color="secondary" variant="extended" disabled>
+                        <Share sx={{ mr: 1 }} /> Share
+                      </Fab>
+                    </Grid>
+                    <Grid item>
+                      <Fab color="secondary" variant="extended" disabled>
+                        <EventAvailable sx={{ mr: 1 }} /> Calendar{' '}
+                        <ArrowDropDown />
+                      </Fab>
+                    </Grid>
+                  </Grid>
+                </Box>
+                <Box mt={10}>
+                  <Paper sx={{ p: 2, mt: 2 }}>
+                    <Typography variant="h6">Details</Typography>
+                    <List>
+                      <ListItem>
+                        <ListItemIcon>
+                          <Event color="secondary" />
+                        </ListItemIcon>
+                        <ListItemText primary={<Skeleton variant="text" />} />
+                      </ListItem>
+                      <ListItem>
+                        <ListItemIcon>
+                          <People color="secondary" />
+                        </ListItemIcon>
+                        <ListItemText primary={<Skeleton variant="text" />} />
+                      </ListItem>
+                    </List>
+                    <Typography variant="body1" component="p">
+                      <Skeleton variant="rectangular" />
+                    </Typography>
+                  </Paper>
+                </Box>
+              </section>
+            </Box>
+          </Container>
+        </main>
+      </>
+    );
+  }
+
+  if (!eventData) {
     return (
       <>
         <Head>
@@ -46,18 +142,22 @@ function EventIndex({ id }: EventIndex) {
           <meta name="description" content="Host events off of Facebook" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <Container maxWidth="md">
-          <Box textAlign="center" my={10}>
-            <Typography variant="h2" component="h1">
-              Event not found
-            </Typography>
-          </Box>
-        </Container>
+        <main id="main">
+          <Container maxWidth="md">
+            <Box my={10}>
+              <section>
+                <Box textAlign="center">
+                  <Typography variant="h2" component="h1" gutterBottom>
+                    Event not found
+                  </Typography>
+                </Box>
+              </section>
+            </Box>
+          </Container>
+        </main>
       </>
     );
   }
-
-  const eventData = data.data() as EventData;
 
   return (
     <>
