@@ -11,7 +11,7 @@ import {
   Grid,
 } from '@mui/material';
 import { Box } from '@mui/system';
-import { deleteDoc, doc, setDoc, Timestamp } from 'firebase/firestore';
+import { doc, setDoc, Timestamp, serverTimestamp } from 'firebase/firestore';
 import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
@@ -26,7 +26,7 @@ export function EventUpdate({ id, data }: { id: string; data: EventData }) {
   const [modalOpen, setModalOpen] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const firestore = useFirestore();
-  const eventsRef = doc(firestore, 'events', id);
+  const eventRef = doc(firestore, 'events', id);
 
   const {
     control,
@@ -63,7 +63,17 @@ export function EventUpdate({ id, data }: { id: string; data: EventData }) {
     setDeleting(true);
 
     try {
-      await deleteDoc(eventsRef);
+      await setDoc(
+        eventRef,
+        {
+          admin: {
+            managePassword: adminPassword,
+          },
+          visibility: 'archived',
+          archivedAt: serverTimestamp(),
+        },
+        { merge: true },
+      );
       router.push('/');
       enqueueSnackbar('Event deleted', { variant: 'success' });
     } catch (err) {
@@ -89,7 +99,7 @@ export function EventUpdate({ id, data }: { id: string; data: EventData }) {
 
     try {
       await setDoc(
-        eventsRef,
+        eventRef,
         {
           admin: {
             managePassword: adminPassword,

@@ -7,14 +7,14 @@ export interface EventData extends DocumentData {
   locationUrl?: string;
   name: string;
   startAt: Timestamp;
-  visibility: 'public' | 'private';
+  visibility: 'public' | 'private' | 'archived';
 }
 
 export interface TimelineData extends DocumentData {
   author: string;
   createdAt: Timestamp;
   text: string;
-  visibility: 'public' | 'private';
+  visibility: 'public' | 'private' | 'archived';
 }
 
 export interface GuestData extends DocumentData {
