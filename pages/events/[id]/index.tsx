@@ -8,9 +8,8 @@ import {
   orderBy,
   query,
 } from 'firebase/firestore';
+import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
 import {
   useFirestore,
   useFirestoreCollection,
@@ -79,27 +78,16 @@ function EventIndex({ id }: EventIndex) {
   );
 }
 
-export default function EventIndexContainer() {
-  const [id, setId] = useState<string>();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (router.isReady) {
-      setId(router.query.id as string);
-    }
-  }, [router.isReady, router.query.id]);
-
-  if (id) {
-    return <EventIndex id={id as string} />;
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  if (!context.params?.id) {
+    return {
+      notFound: true,
+    };
   }
 
-  return (
-    <>
-      <Head>
-        <title>Not a Facebook Event</title>
-        <meta name="description" content="Host events off of Facebook" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-    </>
-  );
+  return {
+    props: {
+      id: context.params.id,
+    },
+  };
 }
