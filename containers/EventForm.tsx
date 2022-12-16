@@ -9,9 +9,10 @@ export interface EventFormValues {
   adminPassword: string;
   coverMedia: File;
   description: string;
+  endAt: Date | '';
+  locationUrl: string;
   name: string;
   startAt: Date | '';
-  locationUrl: string;
 }
 
 export interface EventFormProps {
@@ -24,7 +25,7 @@ export function EventForm({ control, isSubmitting, onSubmit }: EventFormProps) {
   return (
     <form onSubmit={onSubmit}>
       <Grid container spacing={4}>
-        <Grid item md={6} xs={12}>
+        <Grid item xs={12}>
           <Controller
             name="name"
             control={control}
@@ -48,6 +49,27 @@ export function EventForm({ control, isSubmitting, onSubmit }: EventFormProps) {
             render={({ field, fieldState }) => (
               <DateTimePicker
                 label="Event start date"
+                renderInput={inputProps => (
+                  <TextField
+                    error={Boolean(fieldState.error)}
+                    helperText={fieldState.error?.message}
+                    fullWidth
+                    {...inputProps}
+                  />
+                )}
+                {...field}
+              />
+            )}
+          />
+        </Grid>
+        <Grid item md={6} xs={12}>
+          <Controller
+            name="endAt"
+            control={control}
+            rules={{ required: 'This is required' }}
+            render={({ field, fieldState }) => (
+              <DateTimePicker
+                label="Event end date"
                 renderInput={inputProps => (
                   <TextField
                     error={Boolean(fieldState.error)}

@@ -1,5 +1,6 @@
 import {
-  CalendarMonth,
+  AccessTime,
+  Event,
   MapOutlined,
   People,
   Share,
@@ -36,6 +37,7 @@ import { EventData, GuestData, TimelineData } from '../types/events';
 import { getGoing, getUsername, setGoing } from '../utils/cookies';
 import { TimelineDetails } from './TimelineDetails';
 import { useTimeline } from '../hooks/useTimeline';
+import { AddToCalendarFab } from '../components';
 
 export interface EventDetailsProps {
   id: string;
@@ -57,10 +59,12 @@ export function EventDetails({
 
   const isGoing = getGoing(id);
   const startAt = data?.startAt?.toDate();
+  const endAt = data?.endAt?.toDate();
   const relativeStartAt = startAt
     ? formatDistance(startAt, new Date(), { addSuffix: true })
     : null;
   const localizedStartAt = startAt?.toLocaleString();
+  const localizedEndAt = endAt?.toLocaleString();
 
   const onGoing = async () => {
     setPosting(true);
@@ -107,7 +111,7 @@ export function EventDetails({
           <section>
             <Box textAlign="center">
               <Box flexDirection="row" justifyContent="center" display="flex">
-                <CalendarMonth color="secondary" sx={{ mr: 1 }} />
+                <AccessTime color="secondary" sx={{ mr: 1 }} />
                 <Typography variant="subtitle1" component="p" gutterBottom>
                   {relativeStartAt ?? <Skeleton variant="text" />}
                 </Typography>
@@ -138,16 +142,14 @@ export function EventDetails({
                     <Share sx={{ mr: 1 }} /> Share
                   </Fab>
                 </Grid>
+                <Grid item>
+                  <AddToCalendarFab
+                    event={data}
+                    onSelect={url => window.open(url, '_blank')}
+                  />
+                </Grid>
               </Grid>
             </Box>
-            {data?.location && (
-              <Box flexDirection="row" display="flex">
-                <MapOutlined color="secondary" sx={{ mr: 1 }} />
-                <Typography variant="subtitle1" component="p" gutterBottom>
-                  {data.localtion}
-                </Typography>
-              </Box>
-            )}
             <Box mt={10}>
               {isGoing && (
                 <Box mt={4}>
@@ -159,9 +161,15 @@ export function EventDetails({
                 <List>
                   <ListItem>
                     <ListItemIcon>
-                      <CalendarMonth color="secondary" />
+                      <Event color="secondary" />
                     </ListItemIcon>
-                    <ListItemText primary={localizedStartAt} />
+                    <ListItemText
+                      primary={
+                        localizedEndAt
+                          ? `${localizedStartAt} - ${localizedEndAt}`
+                          : localizedStartAt
+                      }
+                    />
                   </ListItem>
                   <ListItem>
                     <ListItemIcon>
