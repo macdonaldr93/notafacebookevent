@@ -1,6 +1,7 @@
 import { DocumentData, Timestamp } from 'firebase/firestore';
 
 export interface EventData extends DocumentData {
+  id: string;
   description?: string;
   endAt?: Timestamp;
   locationUrl?: string;
