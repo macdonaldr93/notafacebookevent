@@ -139,11 +139,6 @@ export function EventDetails({
                   </Fab>
                 </Grid>
               </Grid>
-              {isGoing && (
-                <Box mt={4}>
-                  <Alert severity="info">You&apos;re going to this event</Alert>
-                </Box>
-              )}
             </Box>
             {data?.location && (
               <Box flexDirection="row" display="flex">
@@ -153,42 +148,49 @@ export function EventDetails({
                 </Typography>
               </Box>
             )}
-            <Paper sx={{ p: 2, mt: 2 }}>
-              <Typography variant="h6">Details</Typography>
-              <List>
-                <ListItem>
-                  <ListItemIcon>
-                    <CalendarMonth color="secondary" />
-                  </ListItemIcon>
-                  <ListItemText primary={localizedStartAt} />
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon>
-                    <People color="secondary" />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={`${pluralize(
-                      'person',
-                      guestsData?.size,
-                      true,
-                    )} going (${guestNames})`}
-                  />
-                </ListItem>
-                {data?.locationUrl && (
-                  <ListItem disablePadding>
-                    <ListItemButton component="a" href={data.locationUrl}>
-                      <ListItemIcon>
-                        <MapOutlined color="secondary" />
-                      </ListItemIcon>
-                      <ListItemText primary="Google Maps" />
-                    </ListItemButton>
+            <Box mt={10}>
+              {isGoing && (
+                <Box mt={4}>
+                  <Alert severity="info">You&apos;re going to this event</Alert>
+                </Box>
+              )}
+              <Paper sx={{ p: 2, mt: 2 }}>
+                <Typography variant="h6">Details</Typography>
+                <List>
+                  <ListItem>
+                    <ListItemIcon>
+                      <CalendarMonth color="secondary" />
+                    </ListItemIcon>
+                    <ListItemText primary={localizedStartAt} />
                   </ListItem>
-                )}
-              </List>
-              <Typography variant="body1" component="p">
-                {data?.description}
-              </Typography>
-            </Paper>
+                  <ListItem>
+                    <ListItemIcon>
+                      <People color="secondary" />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={`${pluralize(
+                        'person',
+                        guestsData?.size,
+                        true,
+                      )} going (${guestNames})`}
+                    />
+                  </ListItem>
+                  {data?.locationUrl && (
+                    <ListItem disablePadding>
+                      <ListItemButton component="a" href={data.locationUrl}>
+                        <ListItemIcon>
+                          <MapOutlined color="secondary" />
+                        </ListItemIcon>
+                        <ListItemText primary="Google Maps" />
+                      </ListItemButton>
+                    </ListItem>
+                  )}
+                </List>
+                <Typography variant="body1" component="p">
+                  {data?.description}
+                </Typography>
+              </Paper>
+            </Box>
           </section>
           <TimelineDetails eventId={id} data={timelineData} />
         </Box>
