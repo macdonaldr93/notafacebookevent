@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Head>
-        <title>Not a Facebook Event</title>
+        <title>Toolbug Events</title>
         <meta
           name="description"
           content="Say goodbye to Facebook events. This is a simple tool to create an event and share it with your friends via SMS, email, or any other messaging apps."

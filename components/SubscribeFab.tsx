@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Add, CalendarToday, NotificationAdd } from '@mui/icons-material';
+import { NotificationAdd } from '@mui/icons-material';
 import {
   Button,
   Dialog,
@@ -11,7 +11,6 @@ import {
   TextField,
   Tooltip,
 } from '@mui/material';
-import { EventData } from '../types/events';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { addDoc, collection, doc, serverTimestamp } from 'firebase/firestore';
 import { useFirestore } from 'reactfire';

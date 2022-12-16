@@ -1,4 +1,4 @@
-import { AccountCircle } from '@mui/icons-material';
+import { AccountCircle, EmojiNature } from '@mui/icons-material';
 import { AppBar, Container, Toolbar, Typography, Box } from '@mui/material';
 import { useUsername } from '../hooks/useUsername';
 
@@ -21,7 +21,7 @@ export function AppHeader() {
               textDecoration: 'none',
             }}
           >
-            NOT A FACEBOOK EVENT
+            <EmojiNature /> TOOLBUG
           </Typography>
           {username && (
             <Box display="flex" alignItems="center">

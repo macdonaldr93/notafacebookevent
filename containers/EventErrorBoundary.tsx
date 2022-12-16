@@ -29,7 +29,7 @@ export class EventErrorBoundary extends Component<Props, State> {
       return (
         <>
           <Head>
-            <title>Not Found - Not a Facebook Event</title>
+            <title>Not Found - Toolbug Events</title>
             <meta name="description" content="Host events off of Facebook" />
             <link rel="icon" href="/favicon.ico" />
           </Head>

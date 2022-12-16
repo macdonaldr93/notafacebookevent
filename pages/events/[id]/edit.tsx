@@ -17,7 +17,7 @@ function EventEdit({ id }: { id: string }) {
     return (
       <>
         <Head>
-          <title>Not a Facebook Event</title>
+          <title>Toolbug Events</title>
         </Head>
       </>
     );
@@ -26,7 +26,7 @@ function EventEdit({ id }: { id: string }) {
   return (
     <main id="main">
       <Head>
-        <title>{data?.name ?? 'Untitled'} - Not a Facebook Event</title>
+        <title>{data?.name ?? 'Untitled'} - Toolbug Events</title>
         <meta
           name="description"
           content={`${data?.name} on ${data?.startAt
@@ -47,7 +47,7 @@ export default function EventEditPage() {
     return (
       <>
         <Head>
-          <title>Not a Facebook Event</title>
+          <title>Toolbug Events</title>
         </Head>
       </>
     );

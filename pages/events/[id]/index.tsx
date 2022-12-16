@@ -14,7 +14,7 @@ function EventIndex({ id }: { id: string }) {
     return (
       <>
         <Head>
-          <title>Not a Facebook Event</title>
+          <title>Toolbug Events</title>
         </Head>
         <EventDetailsLoading />
       </>
@@ -25,7 +25,7 @@ function EventIndex({ id }: { id: string }) {
     return (
       <>
         <Head>
-          <title>Not Found - Not a Facebook Event</title>
+          <title>Not Found - Toolbug Events</title>
           <meta name="description" content="Host events off of Facebook" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
@@ -52,7 +52,7 @@ function EventIndex({ id }: { id: string }) {
   return (
     <>
       <Head>
-        <title>{eventData?.name ?? 'Untitled'} - Not a Facebook Event</title>
+        <title>{eventData?.name ?? 'Untitled'} - Toolbug Events</title>
         <meta
           name="description"
           content={`${eventData?.name} on ${eventData?.startAt
@@ -81,7 +81,7 @@ export default function EventIndexPage() {
     return (
       <>
         <Head>
-          <title>Not a Facebook Event</title>
+          <title>Toolbug Events</title>
         </Head>
         <EventDetailsLoading />
       </>
