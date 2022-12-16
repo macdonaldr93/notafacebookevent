@@ -4,6 +4,7 @@ import { doc, DocumentReference } from 'firebase/firestore';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useFirestore, useFirestoreDocData } from 'reactfire';
+import { EventErrorBoundary } from '../../../containers';
 import { EventData } from '../../../types/events';
 import { EventUpdate } from '../../../views/EventUpdate';
 
@@ -53,8 +54,10 @@ export default function EventEditPage() {
   }
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <EventEdit id={id} />
-    </LocalizationProvider>
+    <EventErrorBoundary>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <EventEdit id={id} />
+      </LocalizationProvider>
+    </EventErrorBoundary>
   );
 }

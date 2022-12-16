@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material';
 import { Container } from '@mui/system';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { UsernameGuard } from '../../../containers';
+import { EventErrorBoundary, UsernameGuard } from '../../../containers';
 import { useEvent } from '../../../hooks';
 import { EventDetails } from '../../../views/EventDetails';
 import { EventDetailsLoading } from '../../../views/EventDetailsLoading';
@@ -88,5 +88,9 @@ export default function EventIndexPage() {
     );
   }
 
-  return <EventIndex id={id} />;
+  return (
+    <EventErrorBoundary>
+      <EventIndex id={id} />
+    </EventErrorBoundary>
+  );
 }
