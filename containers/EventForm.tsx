@@ -1,8 +1,13 @@
-import { Button, Grid, TextField } from '@mui/material';
-import { Box } from '@mui/system';
+import { VisibilityOff, Visibility } from '@mui/icons-material';
+import {
+  Button,
+  Grid,
+  IconButton,
+  InputAdornment,
+  TextField,
+} from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers';
-import { FormEvent } from 'react';
-import Dropzone from 'react-dropzone';
+import { FormEvent, useState } from 'react';
 import { Control, Controller } from 'react-hook-form';
 
 export interface EventFormValues {
@@ -18,10 +23,18 @@ export interface EventFormValues {
 export interface EventFormProps {
   control: Control<EventFormValues>;
   isSubmitting?: boolean;
+  newEvent?: boolean;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
 }
 
-export function EventForm({ control, isSubmitting, onSubmit }: EventFormProps) {
+export function EventForm({
+  control,
+  isSubmitting,
+  newEvent,
+  onSubmit,
+}: EventFormProps) {
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <form onSubmit={onSubmit}>
       <Grid container spacing={4}>
@@ -66,7 +79,6 @@ export function EventForm({ control, isSubmitting, onSubmit }: EventFormProps) {
           <Controller
             name="endAt"
             control={control}
-            rules={{ required: 'This is required' }}
             render={({ field, fieldState }) => (
               <DateTimePicker
                 label="Event end date"
@@ -146,13 +158,23 @@ export function EventForm({ control, isSubmitting, onSubmit }: EventFormProps) {
             render={({ field, fieldState }) => (
               <TextField
                 label="Admin password"
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 error={Boolean(fieldState.error)}
-                helperText={
-                  fieldState.error?.message ??
-                  "You'll use this to edit your event in the future"
-                }
+                helperText={fieldState.error?.message}
                 fullWidth
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => setShowPassword(prev => !prev)}
+                        onMouseDown={() => setShowPassword(prev => !prev)}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
                 {...field}
               />
             )}
@@ -166,7 +188,7 @@ export function EventForm({ control, isSubmitting, onSubmit }: EventFormProps) {
             disabled={isSubmitting}
             fullWidth
           >
-            Create
+            {newEvent ? 'Create' : 'Save'}
           </Button>
         </Grid>
       </Grid>

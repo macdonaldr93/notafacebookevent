@@ -1,16 +1,15 @@
-import { Alert, Container, Typography } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { addDoc, collection, Timestamp } from 'firebase/firestore';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useSnackbar } from 'notistack';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useFirestore } from 'reactfire';
 import { EventForm, EventFormValues } from '../containers';
 import { setEventManagePassword } from '../utils/cookies';
 
 export function EventCreate() {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
+  const { enqueueSnackbar } = useSnackbar();
   const router = useRouter();
   const firestore = useFirestore();
   const eventsRef = collection(firestore, 'events');
@@ -27,6 +26,7 @@ export function EventCreate() {
       locationUrl: '',
       name: '',
       startAt: '',
+      endAt: '',
     },
   });
 
@@ -36,10 +36,10 @@ export function EventCreate() {
     locationUrl,
     name,
     startAt,
+    endAt,
   }) => {
-    setErrorMessage(null);
-
     if (startAt === '') {
+      enqueueSnackbar('Event start cannot be blank', { variant: 'error' });
       throw new Error('startAt cannot be blank');
     }
 
@@ -52,13 +52,16 @@ export function EventCreate() {
         description,
         locationUrl,
         startAt: Timestamp.fromDate(startAt),
+        endAt: endAt ? Timestamp.fromDate(endAt) : null,
         visibility: 'public',
       });
 
       setEventManagePassword(newEvent.id, adminPassword);
       router.push(`/events/${newEvent.id}`);
     } catch (err) {
-      setErrorMessage('Your event failed to create. Try again');
+      enqueueSnackbar('Your event failed to create. Try again', {
+        variant: 'error',
+      });
     }
   };
 
@@ -78,10 +81,10 @@ export function EventCreate() {
           </Typography>
         </Box>
         <Box mb={5}>
-          {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
           <EventForm
             control={control}
             isSubmitting={isSubmitting}
+            newEvent
             onSubmit={handleSubmit(onSubmit)}
           />
         </Box>

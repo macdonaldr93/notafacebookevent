@@ -15,7 +15,7 @@ service cloud.firestore {
     }
 
     match /events/{event} {
-      allow update, delete: if request.query.token == resource.data.admin.token;
+      allow update, delete: if request.resource.data.admin.managePassword == resource.data.admin.managePassword;
       allow create;
       allow read;
     }
