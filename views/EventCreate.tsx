@@ -64,18 +64,18 @@ export function EventCreate() {
 
   return (
     <main id="main">
-      <Container>
-        <Box my={20}>
-          <Typography align="center" variant="h1" gutterBottom>
-            Say goodbye to Facebook
+      <Container maxWidth="md">
+        <Box my={10}>
+          <Typography align="center" variant="h2" gutterBottom>
+            👋 Say goodbye to Facebook
           </Typography>
         </Box>
-        <Box mb={7}>
-          <Typography align="center" variant="h2" component="p" gutterBottom>
-            Host events by simply sharing a URL
+        <Box mb={5}>
+          <Typography align="center" variant="h3" component="p" gutterBottom>
+            Plan events by simply sharing a URL
           </Typography>
         </Box>
-        <Box mb={7}>
+        <Box mb={5}>
           {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
           <EventForm
             control={control}

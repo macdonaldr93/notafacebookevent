@@ -142,6 +142,7 @@ export function EventForm({ control, isSubmitting, onSubmit }: EventFormProps) {
             type="submit"
             variant="contained"
             disabled={isSubmitting}
+            fullWidth
           >
             Create
           </Button>
