@@ -68,7 +68,7 @@ export function EventForm({ control, isSubmitting, onSubmit }: EventFormProps) {
             render={({ field, fieldState }) => (
               <TextField
                 type="url"
-                label="Location"
+                label="Google Maps URL"
                 error={Boolean(fieldState.error)}
                 helperText={fieldState.error?.message}
                 fullWidth
