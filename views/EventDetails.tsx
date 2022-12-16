@@ -2,6 +2,7 @@ import {
   AccessTime,
   Event,
   MapOutlined,
+  NotificationAdd,
   People,
   Share,
   ThumbUp,
@@ -19,6 +20,7 @@ import {
   ListItemText,
   Paper,
   Skeleton,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import { formatDistance } from 'date-fns';
@@ -37,7 +39,7 @@ import { EventData, GuestData, TimelineData } from '../types/events';
 import { getGoing, getUsername, setGoing } from '../utils/cookies';
 import { TimelineDetails } from './TimelineDetails';
 import { useTimeline } from '../hooks/useTimeline';
-import { AddToCalendarFab } from '../components';
+import { AddToCalendarFab, SubscribeFab } from '../components';
 
 export interface EventDetailsProps {
   id: string;
@@ -133,20 +135,25 @@ export function EventDetails({
                   </Grid>
                 )}
                 <Grid item>
-                  <Fab
-                    color="secondary"
-                    variant="extended"
-                    onClick={onShare}
-                    disabled={posting}
-                  >
-                    <Share sx={{ mr: 1 }} /> Share
-                  </Fab>
+                  <Tooltip title="Share" arrow>
+                    <Fab
+                      color="secondary"
+                      variant="extended"
+                      onClick={onShare}
+                      disabled={posting}
+                    >
+                      <Share />
+                    </Fab>
+                  </Tooltip>
                 </Grid>
                 <Grid item>
                   <AddToCalendarFab
                     event={data}
                     onSelect={url => window.open(url, '_blank')}
                   />
+                </Grid>
+                <Grid item>
+                  <SubscribeFab id={id} />
                 </Grid>
               </Grid>
             </Box>

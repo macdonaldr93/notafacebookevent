@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { ArrowDropDown, EventAvailable } from '@mui/icons-material';
-import { Fab, Menu, MenuItem } from '@mui/material';
+import { Add, CalendarToday } from '@mui/icons-material';
+import { Box, Fab, Menu, MenuItem, Tooltip } from '@mui/material';
 import { useCalendar } from '../hooks/useCalendar';
 import { EventData } from '../types/events';
 
@@ -25,17 +25,29 @@ export function AddToCalendarFab({ event, onSelect }: AddToCalendarFabProps) {
 
   return (
     <div>
-      <Fab
-        color="secondary"
-        variant="extended"
-        id="add-to-calendar"
-        aria-controls={open ? 'add-to-calendar-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-      >
-        <EventAvailable sx={{ mr: 1 }} /> Calendar <ArrowDropDown />
-      </Fab>
+      <Tooltip title="Add to calendar" arrow>
+        <Fab
+          color="secondary"
+          variant="extended"
+          id="add-to-calendar"
+          aria-controls={open ? 'add-to-calendar-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
+          sx={{ position: 'relative' }}
+        >
+          <CalendarToday />
+          <Box
+            position="absolute"
+            top="50%"
+            left="50%"
+            marginTop="-6px"
+            marginLeft="-8px"
+          >
+            <Add sx={{ fontSize: 16 }} />
+          </Box>
+        </Fab>
+      </Tooltip>
       <Menu
         id="add-to-calendar-menu"
         anchorEl={anchorEl}

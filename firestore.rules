@@ -10,6 +10,10 @@ service cloud.firestore {
       allow read: if get(/databases/$(database)/documents/events/$(event)).data.visibility == 'public';
     }
 
+    match /events/{event}/subscribers {
+      allow create;
+    }
+
     match /events/{event}/admin {
       allow create;
     }
