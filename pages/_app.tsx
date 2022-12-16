@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Head from 'next/head';
 import { AppProps } from 'next/app';
 import { ThemeProvider } from '@mui/material/styles';
@@ -8,12 +7,13 @@ import { FirebaseAppProvider, FirestoreProvider } from 'reactfire';
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { AppBar, Box, Container, Toolbar, Typography } from '@mui/material';
-import { SnackbarProvider, VariantType, useSnackbar } from 'notistack';
+import { SnackbarProvider } from 'notistack';
+import { AccountCircle } from '@mui/icons-material';
+import { useEffect, useState } from 'react';
 import { theme } from '../theme';
 import { createEmotionCache } from '../utils/createEmotionCache';
 import { firebaseConfig } from '../config/firebase';
 import { getUsername } from '../utils/cookies';
-import { AccountCircle } from '@mui/icons-material';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -26,9 +26,13 @@ export default function MyApp({
   emotionCache = clientSideEmotionCache,
   pageProps,
 }: MyAppProps) {
+  const [username, setUsername] = useState<string>();
   const app = initializeApp(firebaseConfig);
   const firestore = getFirestore(app);
-  const username = getUsername();
+
+  useEffect(() => {
+    setUsername(getUsername());
+  }, []);
 
   return (
     <FirebaseAppProvider firebaseApp={app}>
