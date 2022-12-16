@@ -28,7 +28,7 @@ import {
   orderBy,
   query,
 } from 'firebase/firestore';
-import { GetServerSidePropsContext } from 'next';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import {
   useFirestore,
@@ -178,7 +178,7 @@ export default function EventIndex({ id }: EventIndex) {
   );
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
+export const getServerSideProps: GetServerSideProps = async context => {
   if (!context.params?.id) {
     return {
       notFound: true,
@@ -190,4 +190,4 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       id: context.params.id,
     },
   };
-}
+};
