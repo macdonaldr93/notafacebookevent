@@ -8,7 +8,10 @@ export default function Home() {
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Head>
         <title>Not a Facebook Event</title>
-        <meta name="description" content="Host events off of Facebook" />
+        <meta
+          name="description"
+          content="Say goodbye to Facebook events. This is a simple tool to create an event and share it with your friends via SMS, email, or any other messaging apps."
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <EventCreate />
