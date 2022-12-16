@@ -17,7 +17,7 @@ function EventEdit({ id }: { id: string }) {
     return (
       <>
         <Head>
-          <title>Toolbug Events</title>
+          <title>Events | Toolbug</title>
         </Head>
       </>
     );
@@ -26,7 +26,7 @@ function EventEdit({ id }: { id: string }) {
   return (
     <main id="main">
       <Head>
-        <title>{data?.name ?? 'Untitled'} - Toolbug Events</title>
+        <title>{data?.name ?? 'Untitled'} | Events | Toolbug</title>
         <meta
           name="description"
           content={`${data?.name} on ${data?.startAt
@@ -47,7 +47,7 @@ export default function EventEditPage() {
     return (
       <>
         <Head>
-          <title>Toolbug Events</title>
+          <title>Events | Toolbug</title>
         </Head>
       </>
     );
