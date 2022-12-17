@@ -50,10 +50,10 @@ export function EventCreate() {
         admin: {
           managePassword: adminPassword,
         },
-        name,
+        name: name.trim(),
         description,
-        location,
-        locationUrl,
+        location: location ? location.trim() : null,
+        locationUrl: locationUrl ? locationUrl.trim() : null,
         startAt: Timestamp.fromDate(startAt),
         endAt: endAt ? Timestamp.fromDate(endAt) : null,
         visibility: 'public',
