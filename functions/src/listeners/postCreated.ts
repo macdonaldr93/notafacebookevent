@@ -5,17 +5,17 @@ import { ListenerCallback } from './types';
 import * as logger from '../utilities/logger';
 
 export const postCreated: ListenerCallback = async snapshot => {
+  const post = snapshot.data();
+
+  if (!post.notify) {
+    return;
+  }
+
   const eventRef = await snapshot.ref.parent.parent?.get();
   const event = eventRef?.data();
 
   if (!event || !eventRef) {
     logger.critical('Event cannot be found', { ref: snapshot.ref });
-    return;
-  }
-
-  const post = snapshot.data();
-
-  if (!post.notify) {
     return;
   }
 
