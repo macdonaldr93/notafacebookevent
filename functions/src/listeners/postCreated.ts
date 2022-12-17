@@ -8,7 +8,7 @@ export const postCreated: ListenerCallback = async snapshot => {
   const eventRef = await snapshot.ref.parent.parent?.get();
   const event = eventRef?.data();
 
-  if (!event) {
+  if (!event || !eventRef) {
     logger.critical('Event cannot be found', { ref: snapshot.ref });
     return;
   }
@@ -19,9 +19,9 @@ export const postCreated: ListenerCallback = async snapshot => {
     return;
   }
 
-  logger.info(`Getting subscribers for ${event.id}`);
+  logger.info(`Getting subscribers for ${eventRef.id}`);
 
-  const subscribers = await getSubscribers(event.id);
+  const subscribers = await getSubscribers(eventRef.id);
   const messagesRef = firestore().collection('messages');
 
   const updateLastContacted = subscribers.map(({ id }) => {
@@ -33,7 +33,7 @@ export const postCreated: ListenerCallback = async snapshot => {
   const sendMessages = subscribers.map(({ phone }) =>
     messagesRef.add({
       to: phone,
-      body: `There are posts to ${event.name}.\n\nSee https://events.toolbug.io/events/${event.id}`,
+      body: `There are posts to ${event.name}.\n\nSee https://events.toolbug.io/events/${eventRef.id}`,
     }),
   );
 
