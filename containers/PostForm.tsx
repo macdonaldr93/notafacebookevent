@@ -1,23 +1,18 @@
-import { Box, Button, Grid, TextField } from '@mui/material';
-import { DateTimePicker } from '@mui/x-date-pickers';
+import { Box, Button, TextField } from '@mui/material';
 import { FormEvent } from 'react';
 import { Control, Controller } from 'react-hook-form';
 
-export interface TimelineFormValues {
+export interface PostFormValues {
   text: string;
 }
 
-export interface TimelineFormProps {
-  control: Control<TimelineFormValues>;
+export interface PostFormProps {
+  control: Control<PostFormValues>;
   isSubmitting?: boolean;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
 }
 
-export function TimelineForm({
-  control,
-  isSubmitting,
-  onSubmit,
-}: TimelineFormProps) {
+export function PostForm({ control, isSubmitting, onSubmit }: PostFormProps) {
   return (
     <form onSubmit={onSubmit}>
       <Box my={4}>

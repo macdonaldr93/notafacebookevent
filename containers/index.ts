@@ -1,4 +1,4 @@
 export * from './EventErrorBoundary';
 export * from './EventForm';
-export * from './TimelineForm';
+export * from './PostForm';
 export * from './UsernameGuard';

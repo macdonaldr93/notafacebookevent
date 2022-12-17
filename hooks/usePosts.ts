@@ -1,17 +1,16 @@
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { useSnackbar } from 'notistack';
 import { useFirestore } from 'reactfire';
 import { getUsername } from '../utils/cookies';
 
-export function useTimeline() {
+export function usePosts() {
   const firestore = useFirestore();
 
   const createPost = async (eventId: string, text: string) => {
-    const timelineRef = collection(firestore, 'events', eventId, 'timeline');
+    const postsRef = collection(firestore, 'events', eventId, 'posts');
     const username = getUsername();
 
     try {
-      await addDoc(timelineRef, {
+      await addDoc(postsRef, {
         author: username,
         createdAt: serverTimestamp(),
         text,

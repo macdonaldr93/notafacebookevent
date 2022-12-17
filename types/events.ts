@@ -10,7 +10,7 @@ export interface EventData extends DocumentData {
   visibility: 'public' | 'private' | 'archived';
 }
 
-export interface TimelineData extends DocumentData {
+export interface PostData extends DocumentData {
   author: string;
   createdAt: Timestamp;
   text: string;

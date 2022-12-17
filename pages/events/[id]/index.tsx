@@ -8,7 +8,7 @@ import { EventDetails } from '../../../views/EventDetails';
 import { EventDetailsLoading } from '../../../views/EventDetailsLoading';
 
 function EventIndex({ id }: { id: string }) {
-  const { status, eventData, guestsData, timelineData } = useEvent(id);
+  const { status, eventData, guestsData, postsData: postsData } = useEvent(id);
 
   if (status === 'loading') {
     return (
@@ -66,7 +66,7 @@ function EventIndex({ id }: { id: string }) {
           id={id}
           data={eventData}
           guestsData={guestsData}
-          timelineData={timelineData}
+          postsData={postsData}
         />
       </UsernameGuard>
     </>

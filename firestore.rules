@@ -1,6 +1,6 @@
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /events/{event}/timeline/{timelineId} {
+    match /events/{event}/posts/{post} {
       allow create;
       allow read: if get(/databases/$(database)/documents/events/$(event)).data.visibility == 'public';
     }

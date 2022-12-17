@@ -35,29 +35,29 @@ import pluralize from 'pluralize';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 import { useFirestore } from 'reactfire';
-import { EventData, GuestData, TimelineData } from '../types/events';
+import { EventData, GuestData, PostData } from '../types/events';
 import { getGoing, getUsername, setGoing } from '../utils/cookies';
 import { TimelineDetails } from './TimelineDetails';
-import { useTimeline } from '../hooks/useTimeline';
+import { usePosts } from '../hooks';
 import { AddToCalendarFab, SubscribeFab } from '../components';
 
 export interface EventDetailsProps {
   id: string;
   data: EventData;
   guestsData: QuerySnapshot<GuestData>;
-  timelineData: QuerySnapshot<TimelineData>;
+  postsData: QuerySnapshot<PostData>;
 }
 
 export function EventDetails({
   id,
   data,
   guestsData,
-  timelineData,
+  postsData,
 }: EventDetailsProps) {
   const [posting, setPosting] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const firestore = useFirestore();
-  const { createPost } = useTimeline();
+  const { createPost } = usePosts();
 
   const isGoing = getGoing(id);
   const startAt = data?.startAt?.toDate();
@@ -207,7 +207,7 @@ export function EventDetails({
               </Paper>
             </Box>
           </section>
-          <TimelineDetails eventId={id} data={timelineData} />
+          <TimelineDetails eventId={id} data={postsData} />
         </Box>
       </Container>
     </main>

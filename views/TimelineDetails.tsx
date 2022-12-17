@@ -3,30 +3,30 @@ import { formatDistance } from 'date-fns';
 import { QuerySnapshot } from 'firebase/firestore';
 import { useSnackbar } from 'notistack';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { TimelineForm, TimelineFormValues } from '../containers';
-import { useTimeline } from '../hooks/useTimeline';
-import { TimelineData } from '../types/events';
+import { PostForm, PostFormValues as PostFormValues } from '../containers';
+import { usePosts } from '../hooks';
+import { PostData } from '../types/events';
 
 export interface TimelineDetailsProps {
   eventId: string;
-  data: QuerySnapshot<TimelineData>;
+  data: QuerySnapshot<PostData>;
 }
 
 export function TimelineDetails({ eventId, data }: TimelineDetailsProps) {
   const { enqueueSnackbar } = useSnackbar();
-  const { createPost } = useTimeline();
+  const { createPost } = usePosts();
 
   const {
     control,
     handleSubmit,
     formState: { isSubmitting },
-  } = useForm<TimelineFormValues>({
+  } = useForm<PostFormValues>({
     defaultValues: {
       text: '',
     },
   });
 
-  const onSubmit: SubmitHandler<TimelineFormValues> = async ({ text }) => {
+  const onSubmit: SubmitHandler<PostFormValues> = async ({ text }) => {
     const succeeded = await createPost(eventId, text);
 
     if (succeeded) {
@@ -63,7 +63,7 @@ export function TimelineDetails({ eventId, data }: TimelineDetailsProps) {
       <Paper sx={{ p: 2, mt: 2 }}>
         <Typography variant="h6">Timeline</Typography>
         {timelineMarkup && <Box sx={{ mt: 2, mb: 4 }}>{timelineMarkup}</Box>}
-        <TimelineForm
+        <PostForm
           control={control}
           isSubmitting={isSubmitting}
           onSubmit={handleSubmit(onSubmit)}
