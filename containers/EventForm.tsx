@@ -15,6 +15,7 @@ export interface EventFormValues {
   coverMedia: File;
   description: string;
   endAt: Date | '';
+  location: string;
   locationUrl: string;
   name: string;
   startAt: Date | '';
@@ -95,7 +96,23 @@ export function EventForm({
             )}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
+          <Controller
+            name="location"
+            control={control}
+            render={({ field, fieldState }) => (
+              <TextField
+                type="text"
+                label="Location"
+                error={Boolean(fieldState.error)}
+                helperText={fieldState.error?.message}
+                fullWidth
+                {...field}
+              />
+            )}
+          />
+        </Grid>
+        <Grid item xs={6}>
           <Controller
             name="locationUrl"
             control={control}

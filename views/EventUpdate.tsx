@@ -39,6 +39,7 @@ export function EventUpdate({ id, data }: { id: string; data: EventData }) {
       adminPassword: '',
       coverMedia: undefined,
       description: data?.description ?? '',
+      location: data?.location ?? '',
       locationUrl: data?.locationUrl ?? '',
       name: data?.name ?? '',
       startAt: data?.startAt?.toDate() ?? '',
@@ -87,6 +88,7 @@ export function EventUpdate({ id, data }: { id: string; data: EventData }) {
   const onSubmit: SubmitHandler<EventFormValues> = async ({
     adminPassword,
     description,
+    location,
     locationUrl,
     name,
     startAt,
@@ -106,6 +108,7 @@ export function EventUpdate({ id, data }: { id: string; data: EventData }) {
           },
           name,
           description,
+          location,
           locationUrl,
           startAt: Timestamp.fromDate(startAt),
           endAt: endAt ? Timestamp.fromDate(endAt) : null,

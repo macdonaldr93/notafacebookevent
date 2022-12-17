@@ -23,6 +23,7 @@ export function EventCreate() {
       adminPassword: '',
       coverMedia: undefined,
       description: '',
+      location: '',
       locationUrl: '',
       name: '',
       startAt: '',
@@ -33,6 +34,7 @@ export function EventCreate() {
   const onSubmit: SubmitHandler<EventFormValues> = async ({
     adminPassword,
     description,
+    location,
     locationUrl,
     name,
     startAt,
@@ -50,6 +52,7 @@ export function EventCreate() {
         },
         name,
         description,
+        location,
         locationUrl,
         startAt: Timestamp.fromDate(startAt),
         endAt: endAt ? Timestamp.fromDate(endAt) : null,

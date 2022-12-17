@@ -190,16 +190,25 @@ export function EventDetails({
                       )} going (${guestNames})`}
                     />
                   </ListItem>
-                  {data?.locationUrl && (
+                  {data?.locationUrl ? (
                     <ListItem disablePadding>
                       <ListItemButton component="a" href={data.locationUrl}>
                         <ListItemIcon>
                           <MapOutlined color="secondary" />
                         </ListItemIcon>
-                        <ListItemText primary="Google Maps" />
+                        <ListItemText
+                          primary={data?.location || 'Google Maps'}
+                        />
                       </ListItemButton>
                     </ListItem>
-                  )}
+                  ) : data?.location ? (
+                    <ListItem disablePadding>
+                      <ListItemIcon>
+                        <MapOutlined color="secondary" />
+                      </ListItemIcon>
+                      <ListItemText primary={data.location} />
+                    </ListItem>
+                  ) : null}
                 </List>
               </Paper>
               {data?.description && (
