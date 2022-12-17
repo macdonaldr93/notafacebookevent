@@ -159,7 +159,12 @@ export function EventUpdate({ id, data }: { id: string; data: EventData }) {
           />
         </Box>
       </Container>
-      <Dialog open={modalOpen} onClose={() => setModalOpen(false)}>
+      <Dialog
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        maxWidth="xs"
+        fullWidth
+      >
         <DialogTitle>Are you sure?</DialogTitle>
         <DialogContent>
           <DialogContentText>

@@ -34,7 +34,7 @@ export function UsernameGuard({ children }: PropsWithChildren<{}>) {
   return (
     <>
       {username ? children : null}
-      <Dialog open={modalOpen}>
+      <Dialog open={modalOpen} maxWidth="xs" fullWidth>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogTitle>What would you like to be called?</DialogTitle>
           <DialogContent>

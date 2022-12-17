@@ -19,7 +19,7 @@ import { useSnackbar } from 'notistack';
 
 export function SubscribeFab({ id }: { id: string }) {
   const { enqueueSnackbar } = useSnackbar();
-  const username = useUsername();
+  const { username } = useUsername();
   const firestore = useFirestore();
   const [modalOpen, setModalOpen] = useState(false);
   const {
@@ -75,7 +75,7 @@ export function SubscribeFab({ id }: { id: string }) {
           <NotificationAdd />
         </Fab>
       </Tooltip>
-      <Dialog open={modalOpen} onClose={handleClose}>
+      <Dialog open={modalOpen} onClose={handleClose} maxWidth="xs" fullWidth>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogTitle>Receive SMS updates</DialogTitle>
           <DialogContent>
@@ -83,7 +83,13 @@ export function SubscribeFab({ id }: { id: string }) {
               <Controller
                 name="phone"
                 control={control}
-                rules={{ required: 'This is required' }}
+                rules={{
+                  required: 'This is required',
+                  pattern: {
+                    value: new RegExp('^\\+[1-9]\\d{1,14}$'),
+                    message: 'Format invalid. Use +11234567890',
+                  },
+                }}
                 render={({ field, fieldState }) => (
                   <TextField
                     id="phone"
@@ -93,6 +99,7 @@ export function SubscribeFab({ id }: { id: string }) {
                     variant="standard"
                     error={Boolean(fieldState.error)}
                     helperText={fieldState.error?.message}
+                    placeholder="+11234567890"
                     {...field}
                   />
                 )}
