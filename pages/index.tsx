@@ -12,7 +12,6 @@ export default function Home() {
           name="description"
           content="Say goodbye to Facebook events. This is a simple tool to create an event and share it with your friends via SMS, email, or any other messaging apps."
         />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <EventCreate />
     </LocalizationProvider>

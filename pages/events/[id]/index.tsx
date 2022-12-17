@@ -26,8 +26,6 @@ function EventIndex({ id }: { id: string }) {
       <>
         <Head>
           <title>Not Found | Events | Toolbug</title>
-          <meta name="description" content="Host events off of Facebook" />
-          <link rel="icon" href="/favicon.ico" />
         </Head>
         <main id="main">
           <Container maxWidth="md">
@@ -59,7 +57,6 @@ function EventIndex({ id }: { id: string }) {
             .toDate()
             .toLocaleString()} | ${eventData?.description}`}
         />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <UsernameGuard>
         <EventDetails

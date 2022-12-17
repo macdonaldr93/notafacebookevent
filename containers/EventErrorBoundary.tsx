@@ -30,8 +30,6 @@ export class EventErrorBoundary extends Component<Props, State> {
         <>
           <Head>
             <title>Not Found | Events | Toolbug</title>
-            <meta name="description" content="Host events off of Facebook" />
-            <link rel="icon" href="/favicon.ico" />
           </Head>
           <main id="main">
             <Container maxWidth="md">
