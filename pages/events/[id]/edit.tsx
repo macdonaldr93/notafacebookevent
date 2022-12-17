@@ -18,6 +18,7 @@ function EventEdit({ id }: { id: string }) {
       <>
         <Head>
           <title>Events | Toolbug</title>
+          <meta name="robots" content="noindex, nofollow" />
         </Head>
       </>
     );
@@ -33,6 +34,7 @@ function EventEdit({ id }: { id: string }) {
             .toDate()
             .toLocaleString()} | ${data?.description}`}
         />
+        <meta name="robots" content="noindex, nofollow" />
       </Head>
       <EventUpdate id={id} data={data} />
     </main>
@@ -48,6 +50,7 @@ export default function EventEditPage() {
       <>
         <Head>
           <title>Events | Toolbug</title>
+          <meta name="robots" content="noindex, nofollow" />
         </Head>
       </>
     );
