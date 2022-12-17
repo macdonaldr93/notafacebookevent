@@ -1,4 +1,10 @@
-import { Box, Paper, Typography } from '@mui/material';
+import {
+  Box,
+  FormControlLabel,
+  Paper,
+  Switch,
+  Typography,
+} from '@mui/material';
 import { formatDistance } from 'date-fns';
 import { QuerySnapshot } from 'firebase/firestore';
 import { useSnackbar } from 'notistack';
@@ -20,17 +26,21 @@ export function TimelineDetails({ eventId, data }: TimelineDetailsProps) {
     control,
     handleSubmit,
     formState: { isSubmitting },
+    setValue,
+    reset,
   } = useForm<PostFormValues>({
     defaultValues: {
+      notify: false,
       text: '',
     },
   });
 
-  const onSubmit: SubmitHandler<PostFormValues> = async ({ text }) => {
-    const succeeded = await createPost(eventId, text);
+  const onSubmit: SubmitHandler<PostFormValues> = async ({ notify, text }) => {
+    const succeeded = await createPost(eventId, text, notify);
 
     if (succeeded) {
       enqueueSnackbar('Posted to timeline', { variant: 'success' });
+      reset();
     } else {
       enqueueSnackbar('Failed to post to timeline. Try again', {
         variant: 'error',

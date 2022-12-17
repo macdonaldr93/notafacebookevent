@@ -1,8 +1,15 @@
-import { Box, Button, TextField } from '@mui/material';
+import {
+  Box,
+  Button,
+  FormControlLabel,
+  Switch,
+  TextField,
+} from '@mui/material';
 import { FormEvent } from 'react';
 import { Control, Controller } from 'react-hook-form';
 
 export interface PostFormValues {
+  notify: boolean;
   text: string;
 }
 
@@ -42,6 +49,16 @@ export function PostForm({ control, isSubmitting, onSubmit }: PostFormProps) {
       >
         Post
       </Button>
+      <Controller
+        name="notify"
+        control={control}
+        render={({ field, fieldState }) => (
+          <FormControlLabel
+            control={<Switch {...field} checked={field.value} />}
+            label="Notify subscribers"
+          />
+        )}
+      />
     </form>
   );
 }

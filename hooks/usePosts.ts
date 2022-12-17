@@ -5,7 +5,11 @@ import { getUsername } from '../utils/cookies';
 export function usePosts() {
   const firestore = useFirestore();
 
-  const createPost = async (eventId: string, text: string) => {
+  const createPost = async (
+    eventId: string,
+    text: string,
+    notify?: boolean,
+  ) => {
     const postsRef = collection(firestore, 'events', eventId, 'posts');
     const username = getUsername();
 
@@ -13,6 +17,7 @@ export function usePosts() {
       await addDoc(postsRef, {
         author: username,
         createdAt: serverTimestamp(),
+        notify: notify ?? false,
         text,
         visibility: 'public',
       });
