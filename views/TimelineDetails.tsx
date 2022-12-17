@@ -1,10 +1,4 @@
-import {
-  Box,
-  FormControlLabel,
-  Paper,
-  Switch,
-  Typography,
-} from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
 import { formatDistance } from 'date-fns';
 import { QuerySnapshot } from 'firebase/firestore';
 import { useSnackbar } from 'notistack';
