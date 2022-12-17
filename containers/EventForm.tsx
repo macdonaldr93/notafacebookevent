@@ -46,7 +46,7 @@ export function EventForm({
             rules={{ required: 'This is required' }}
             render={({ field, fieldState }) => (
               <TextField
-                label="Event name"
+                label="Name"
                 error={Boolean(fieldState.error)}
                 helperText={fieldState.error?.message}
                 fullWidth
@@ -62,7 +62,7 @@ export function EventForm({
             rules={{ required: 'This is required' }}
             render={({ field, fieldState }) => (
               <DateTimePicker
-                label="Event start date"
+                label="Start date"
                 renderInput={inputProps => (
                   <TextField
                     error={Boolean(fieldState.error)}
@@ -82,7 +82,7 @@ export function EventForm({
             control={control}
             render={({ field, fieldState }) => (
               <DateTimePicker
-                label="Event end date"
+                label="End date"
                 renderInput={inputProps => (
                   <TextField
                     error={Boolean(fieldState.error)}
@@ -119,7 +119,7 @@ export function EventForm({
             render={({ field, fieldState }) => (
               <TextField
                 type="url"
-                label="Google Maps URL"
+                label="Maps URL"
                 error={Boolean(fieldState.error)}
                 helperText={fieldState.error?.message}
                 fullWidth
@@ -177,7 +177,10 @@ export function EventForm({
                 label="Admin password"
                 type={showPassword ? 'text' : 'password'}
                 error={Boolean(fieldState.error)}
-                helperText={fieldState.error?.message}
+                helperText={
+                  fieldState.error?.message ??
+                  'This is to edit your event at /edit'
+                }
                 fullWidth
                 InputProps={{
                   endAdornment: (
