@@ -196,9 +196,7 @@ export function EventDetails({
                         <ListItemIcon>
                           <MapOutlined color="secondary" />
                         </ListItemIcon>
-                        <ListItemText
-                          primary={data?.location || 'Google Maps'}
-                        />
+                        <ListItemText primary={data?.location || 'Maps'} />
                       </ListItemButton>
                     </ListItem>
                   ) : data?.location ? (
