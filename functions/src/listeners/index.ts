@@ -1,4 +1,5 @@
 import { eventChanged as eventChangedFn } from './eventChanged';
+import { postCreated as postCreatedFn } from './postCreated';
 import {
   onChangeListenerRequest,
   onCreateListenerRequest,
@@ -9,7 +10,7 @@ export const eventChanged = onChangeListenerRequest(
   eventChangedFn,
 );
 
-export const eventPostCreated = onChangeListenerRequest(
-  'events/{event}/posts',
-  eventChangedFn,
+export const postCreated = onCreateListenerRequest(
+  'events/{event}/posts/{post}',
+  postCreatedFn,
 );
