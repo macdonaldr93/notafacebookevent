@@ -1,5 +1,6 @@
 import { AccountCircle, EmojiNature } from '@mui/icons-material';
 import { AppBar, Container, Toolbar, Typography, Box } from '@mui/material';
+import { config } from '../config';
 import { useUsername } from '../hooks/useUsername';
 
 export function AppHeader() {
@@ -19,9 +20,10 @@ export function AppHeader() {
               flexGrow: 1,
               color: 'inherit',
               textDecoration: 'none',
+              textTransform: 'uppercase',
             }}
           >
-            <EmojiNature /> TOOLBUG
+            <EmojiNature /> {config.brandName}
           </Typography>
           {username && (
             <Box display="flex" alignItems="center">

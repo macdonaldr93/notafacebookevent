@@ -19,6 +19,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useFirestore } from 'reactfire';
 import { EventForm, EventFormValues } from '../containers';
 import { EventData } from '../types/events';
+import { eventFormToEventData } from '../utils/eventForm';
 
 export function EventUpdateView({ id, data }: { id: string; data: EventData }) {
   const router = useRouter();
@@ -78,47 +79,26 @@ export function EventUpdateView({ id, data }: { id: string; data: EventData }) {
       router.push('/');
       enqueueSnackbar('Event deleted', { variant: 'success' });
     } catch (err) {
+      console.error(err);
       setDeleting(false);
-      enqueueSnackbar('Event failed to delete. Try again', {
+      enqueueSnackbar('Failed to delete event. Try again', {
         variant: 'error',
       });
     }
   };
 
-  const onSubmit: SubmitHandler<EventFormValues> = async ({
-    adminPassword,
-    description,
-    location,
-    locationUrl,
-    name,
-    startAt,
-    endAt,
-  }) => {
-    if (startAt === '') {
+  const onSubmit: SubmitHandler<EventFormValues> = async formValues => {
+    if (formValues.startAt === '') {
       enqueueSnackbar('Event start cannot be blank', { variant: 'error' });
-      throw new Error('startAt cannot be blank');
+      return;
     }
 
     try {
-      await setDoc(
-        eventRef,
-        {
-          admin: {
-            managePassword: adminPassword,
-          },
-          name: name.trim(),
-          description,
-          location: location ? location.trim() : null,
-          locationUrl: locationUrl ? locationUrl.trim() : null,
-          startAt: Timestamp.fromDate(startAt),
-          endAt: endAt ? Timestamp.fromDate(endAt) : null,
-        },
-        { merge: true },
-      );
-
+      await setDoc(eventRef, eventFormToEventData(formValues), { merge: true });
       enqueueSnackbar('Event updated', { variant: 'success' });
     } catch (err) {
-      enqueueSnackbar('Event failed to update. Try again', {
+      console.error(err);
+      enqueueSnackbar('Failed to update event. Try again', {
         variant: 'error',
       });
     }

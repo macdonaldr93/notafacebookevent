@@ -1,5 +1,4 @@
 import { Box, Paper, Typography } from '@mui/material';
-import { formatDistance } from 'date-fns';
 import { useSnackbar } from 'notistack';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Post } from '../components';
@@ -45,9 +44,9 @@ export function TimelineView({ eventId, data }: TimelineViewProps) {
     return (
       <Post
         key={post.id}
-        author={post.author}
-        createdAt={post.createdAt.toDate()}
-        text={post.text}
+        author={post?.author}
+        createdAt={post?.createdAt?.toDate()}
+        text={post?.text}
       />
     );
   });

@@ -13,6 +13,7 @@ import { createEmotionCache } from '../utils/createEmotionCache';
 import { firebaseConfig } from '../config/firebase';
 import { UsernameProvider } from '../hooks/useUsername';
 import { AppHeader } from '../components';
+import { config } from '../config';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -39,8 +40,8 @@ export default function MyApp({
             />
           </Head>
           <DefaultSeo
-            titleTemplate="%s | Events | Toolbug"
-            defaultTitle="Events | Toolbug"
+            titleTemplate={`%s | ${config.websiteName}`}
+            defaultTitle={config.websiteName}
           />
           <ThemeProvider theme={theme}>
             <SnackbarProvider maxSnack={3}>

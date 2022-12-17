@@ -46,10 +46,10 @@ export function SubscribeFab({ id }: { id: string }) {
         variant: 'success',
       });
     } catch (err) {
+      console.error(err);
       enqueueSnackbar('Failed to subscribe. Try again', {
         variant: 'error',
       });
-      console.error(err);
     }
 
     setModalOpen(false);

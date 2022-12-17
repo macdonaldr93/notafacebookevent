@@ -31,7 +31,7 @@ export function useIsGoing(id: string) {
       enqueueSnackbar('RVPed to event', { variant: 'success' });
     } catch (err) {
       console.error(err);
-      enqueueSnackbar('RVP failed. Try again', {
+      enqueueSnackbar('Failed to RVP. Try again', {
         variant: 'error',
       });
     } finally {

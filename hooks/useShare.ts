@@ -8,9 +8,9 @@ export function useShare(id: string, eventName: string) {
     try {
       await navigator.share({ title: eventName, url: window.location.href });
     } catch (err) {
+      console.error(err);
       copy(window.location.href);
       enqueueSnackbar('Copied to clipboard', { variant: 'success' });
-      console.error(err);
     }
   };
 

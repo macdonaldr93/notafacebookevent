@@ -2,9 +2,9 @@ import { Box, Typography } from '@mui/material';
 import { formatDistance } from 'date-fns';
 
 export interface PostProps {
-  author: string;
-  createdAt: Date;
-  text: string;
+  author: string | undefined | null;
+  createdAt: Date | undefined | null;
+  text: string | undefined | null;
 }
 
 export function Post({ author, createdAt, text }: PostProps) {
@@ -25,7 +25,7 @@ export function Post({ author, createdAt, text }: PostProps) {
           {createdAt ? formatDistance(createdAt, new Date()) : ''}
         </Typography>
       </Box>
-      <Typography>{text}</Typography>
+      {text && <Typography>{text}</Typography>}
     </Box>
   );
 }

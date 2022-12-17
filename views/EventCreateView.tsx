@@ -6,6 +6,7 @@ import { useSnackbar } from 'notistack';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useFirestore } from 'reactfire';
 import { EventForm, EventFormValues } from '../containers';
+import { eventFormToEventData } from '../utils/eventForm';
 
 export function EventCreateView() {
   const { enqueueSnackbar } = useSnackbar();
@@ -30,38 +31,22 @@ export function EventCreateView() {
     },
   });
 
-  const onSubmit: SubmitHandler<EventFormValues> = async ({
-    adminPassword,
-    description,
-    location,
-    locationUrl,
-    name,
-    startAt,
-    endAt,
-  }) => {
-    if (startAt === '') {
+  const onSubmit: SubmitHandler<EventFormValues> = async formValues => {
+    if (formValues.startAt === '') {
       enqueueSnackbar('Event start cannot be blank', { variant: 'error' });
       return;
     }
 
     try {
       const newEvent = await addDoc(eventsRef, {
-        admin: {
-          managePassword: adminPassword,
-        },
-        name: name.trim(),
-        description,
-        location: location ? location.trim() : null,
-        locationUrl: locationUrl ? locationUrl.trim() : null,
-        startAt: Timestamp.fromDate(startAt),
-        endAt: endAt ? Timestamp.fromDate(endAt) : null,
+        ...eventFormToEventData(formValues),
         visibility: 'public',
       });
 
       router.push(`/events/${newEvent.id}`);
     } catch (err) {
       console.error(err);
-      enqueueSnackbar('Event failed to create. Try again', {
+      enqueueSnackbar('Failed to create event. Try again', {
         variant: 'error',
       });
     }
