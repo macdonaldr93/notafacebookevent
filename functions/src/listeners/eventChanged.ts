@@ -13,7 +13,7 @@ export const eventChanged: ListenerChangeCallback = async ({ before }) => {
   const sendMessages = subscribers.map(phone =>
     messagesRef.add({
       to: phone,
-      body: `${event.name} changed.\n\nSee https://events.toolbug.io/events/${before.id}`,
+      body: `${event.name} changed.\n\nhttps://events.toolbug.io/events/${before.id}`,
     }),
   );
 

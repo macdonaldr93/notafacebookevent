@@ -21,7 +21,7 @@ export const postCreated: ListenerCallback = async snapshot => {
 
   logger.info(`Getting subscribers for ${eventRef.id}`);
 
-  const subscribers = await getSubscribers(eventRef.id);
+  const subscribers = await getSubscribers(eventRef.id, post.author);
   const messagesRef = firestore().collection('messages');
 
   const updateLastContacted = subscribers.map(({ id }) => {
@@ -33,7 +33,7 @@ export const postCreated: ListenerCallback = async snapshot => {
   const sendMessages = subscribers.map(({ phone }) =>
     messagesRef.add({
       to: phone,
-      body: `There are posts to ${event.name}.\n\nSee https://events.toolbug.io/events/${eventRef.id}`,
+      body: `New posts at ${event.name}.\n\nhttps://events.toolbug.io/events/${eventRef.id}`,
     }),
   );
 
@@ -44,6 +44,7 @@ export const postCreated: ListenerCallback = async snapshot => {
 
 async function getSubscribers(
   id: string,
+  username: string,
 ): Promise<{ id: string; phone: string }[]> {
   const subscribersSnap = await firestore()
     .collection(`/events/${id}/subscribers`)
@@ -59,6 +60,10 @@ async function getSubscribers(
       id: snap.id,
     }))
     .filter((data: any) => {
+      if (username === data.username) {
+        return false;
+      }
+
       if (!data.lastMessagedAt) {
         return true;
       }
