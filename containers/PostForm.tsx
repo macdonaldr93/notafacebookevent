@@ -52,7 +52,7 @@ export function PostForm({ control, isSubmitting, onSubmit }: PostFormProps) {
       <Controller
         name="notify"
         control={control}
-        render={({ field, fieldState }) => (
+        render={({ field }) => (
           <FormControlLabel
             control={<Switch {...field} checked={field.value} />}
             label="Notify subscribers"

@@ -20,7 +20,7 @@ import { useFirestore } from 'reactfire';
 import { EventForm, EventFormValues } from '../containers';
 import { EventData } from '../types/events';
 
-export function EventUpdate({ id, data }: { id: string; data: EventData }) {
+export function EventUpdateView({ id, data }: { id: string; data: EventData }) {
   const router = useRouter();
   const [deleting, setDeleting] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -125,7 +125,7 @@ export function EventUpdate({ id, data }: { id: string; data: EventData }) {
   };
 
   return (
-    <main id="main">
+    <>
       <Container maxWidth="md">
         <Box my={10}>
           <Box mb={5}>
@@ -186,6 +186,6 @@ export function EventUpdate({ id, data }: { id: string; data: EventData }) {
           </Button>
         </DialogActions>
       </Dialog>
-    </main>
+    </>
   );
 }

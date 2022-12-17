@@ -6,9 +6,8 @@ import { useSnackbar } from 'notistack';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useFirestore } from 'reactfire';
 import { EventForm, EventFormValues } from '../containers';
-import { setEventManagePassword } from '../utils/cookies';
 
-export function EventCreate() {
+export function EventCreateView() {
   const { enqueueSnackbar } = useSnackbar();
   const router = useRouter();
   const firestore = useFirestore();
@@ -42,7 +41,7 @@ export function EventCreate() {
   }) => {
     if (startAt === '') {
       enqueueSnackbar('Event start cannot be blank', { variant: 'error' });
-      throw new Error('startAt cannot be blank');
+      return;
     }
 
     try {
@@ -59,39 +58,37 @@ export function EventCreate() {
         visibility: 'public',
       });
 
-      setEventManagePassword(newEvent.id, adminPassword);
       router.push(`/events/${newEvent.id}`);
     } catch (err) {
-      enqueueSnackbar('Your event failed to create. Try again', {
+      console.error(err);
+      enqueueSnackbar('Event failed to create. Try again', {
         variant: 'error',
       });
     }
   };
 
   return (
-    <main id="main">
-      <Container maxWidth="md">
-        <Box my={10}>
-          <Typography align="center" variant="h2" gutterBottom>
-            👋 Say goodbye to
-            <br />
-            Facebook events
-          </Typography>
-        </Box>
-        <Box mb={5}>
-          <Typography align="center" variant="h3" component="p" gutterBottom>
-            Plan events by simply sharing a URL
-          </Typography>
-        </Box>
-        <Box mb={5}>
-          <EventForm
-            control={control}
-            isSubmitting={isSubmitting}
-            newEvent
-            onSubmit={handleSubmit(onSubmit)}
-          />
-        </Box>
-      </Container>
-    </main>
+    <Container maxWidth="md">
+      <Box my={10}>
+        <Typography align="center" variant="h2" gutterBottom>
+          👋 Say goodbye to
+          <br />
+          Facebook events
+        </Typography>
+      </Box>
+      <Box mb={5}>
+        <Typography align="center" variant="h3" component="p" gutterBottom>
+          Plan events by simply sharing a URL
+        </Typography>
+      </Box>
+      <Box mb={5}>
+        <EventForm
+          control={control}
+          isSubmitting={isSubmitting}
+          newEvent
+          onSubmit={handleSubmit(onSubmit)}
+        />
+      </Box>
+    </Container>
   );
 }

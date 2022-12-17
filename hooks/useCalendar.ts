@@ -11,7 +11,8 @@ export function useCalendar(event: EventData) {
   };
 
   return {
-    googleCalendar: () => new GoogleCalendar(config),
-    iCalendar: () => new ICalendar(config),
+    config,
+    GoogleCalendar,
+    ICalendar,
   };
 }

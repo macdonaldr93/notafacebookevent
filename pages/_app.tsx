@@ -7,6 +7,7 @@ import { FirebaseAppProvider, FirestoreProvider } from 'reactfire';
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { SnackbarProvider } from 'notistack';
+import { DefaultSeo } from 'next-seo';
 import { theme } from '../theme';
 import { createEmotionCache } from '../utils/createEmotionCache';
 import { firebaseConfig } from '../config/firebase';
@@ -37,6 +38,10 @@ export default function MyApp({
               content="initial-scale=1, width=device-width"
             />
           </Head>
+          <DefaultSeo
+            titleTemplate="%s | Events | Toolbug"
+            defaultTitle="Events | Toolbug"
+          />
           <ThemeProvider theme={theme}>
             <SnackbarProvider maxSnack={3}>
               <UsernameProvider>

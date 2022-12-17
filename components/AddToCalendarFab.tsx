@@ -10,7 +10,7 @@ export interface AddToCalendarFabProps {
 }
 
 export function AddToCalendarFab({ event, onSelect }: AddToCalendarFabProps) {
-  const { googleCalendar, iCalendar } = useCalendar(event);
+  const { config, GoogleCalendar, ICalendar } = useCalendar(event);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -57,10 +57,10 @@ export function AddToCalendarFab({ event, onSelect }: AddToCalendarFabProps) {
           'aria-labelledby': 'add-to-calendar',
         }}
       >
-        <MenuItem onClick={() => onSelect(googleCalendar().render())}>
+        <MenuItem onClick={() => onSelect(new GoogleCalendar(config).render())}>
           Google Calendar
         </MenuItem>
-        <MenuItem onClick={() => onSelect(iCalendar().render())}>
+        <MenuItem onClick={() => onSelect(new ICalendar(config).render())}>
           iCalendar
         </MenuItem>
       </Menu>

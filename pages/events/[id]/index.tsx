@@ -1,65 +1,41 @@
-import { Box, Typography } from '@mui/material';
-import { Container } from '@mui/system';
-import Head from 'next/head';
+import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
-import { EventErrorBoundary, UsernameGuard } from '../../../containers';
-import { useEvent } from '../../../hooks';
-import { EventDetails } from '../../../views/EventDetails';
-import { EventDetailsLoading } from '../../../views/EventDetailsLoading';
+import {
+  EventErrorBoundary,
+  EventNotFound,
+  UsernameGuard,
+} from '../../../containers';
+import { useEventDetails, useEventOG } from '../../../hooks';
+import { EventDetailsView } from '../../../views';
+import { EventDetailsViewLoading } from '../../../views';
 
 function EventIndex({ id }: { id: string }) {
-  const { status, eventData, guestsData, postsData: postsData } = useEvent(id);
+  const {
+    status,
+    eventData,
+    guestsData,
+    postsData: postsData,
+  } = useEventDetails(id);
+  const { title, description } = useEventOG(eventData);
 
   if (status === 'loading') {
-    return (
-      <>
-        <Head>
-          <title>Events | Toolbug</title>
-        </Head>
-        <EventDetailsLoading />
-      </>
-    );
+    return <EventDetailsViewLoading />;
   }
 
   if (!eventData) {
     return (
       <>
-        <Head>
-          <title>Not Found | Events | Toolbug</title>
-        </Head>
-        <main id="main">
-          <Container maxWidth="md">
-            <Box my={10}>
-              <section>
-                <Box textAlign="center">
-                  <Typography variant="h2" component="h1" gutterBottom>
-                    We can&apos;t find the event
-                  </Typography>
-                  <Typography variant="h5" component="p" gutterBottom>
-                    Ask your friend for the URL to their event again
-                  </Typography>
-                </Box>
-              </section>
-            </Box>
-          </Container>
-        </main>
+        <NextSeo title="Not Found" />
+        <EventNotFound />
       </>
     );
   }
 
   return (
     <>
-      <Head>
-        <title>{eventData?.name ?? 'Untitled'} | Events | Toolbug</title>
-        <meta
-          name="description"
-          content={`${eventData?.name} on ${eventData?.startAt
-            .toDate()
-            .toLocaleString()} | ${eventData?.description}`}
-        />
-      </Head>
+      <NextSeo title={title} description={description} />
       <UsernameGuard>
-        <EventDetails
+        <EventDetailsView
           id={id}
           data={eventData}
           guestsData={guestsData}
@@ -74,20 +50,11 @@ export default function EventIndexPage() {
   const router = useRouter();
   const id = router.query.id as string | undefined;
 
-  if (!id) {
-    return (
-      <>
-        <Head>
-          <title>Events | Toolbug</title>
-        </Head>
-        <EventDetailsLoading />
-      </>
-    );
-  }
-
   return (
-    <EventErrorBoundary>
-      <EventIndex id={id} />
-    </EventErrorBoundary>
+    <main id="main">
+      <EventErrorBoundary>
+        {id ? <EventIndex id={id} /> : <EventDetailsViewLoading />}
+      </EventErrorBoundary>
+    </main>
   );
 }

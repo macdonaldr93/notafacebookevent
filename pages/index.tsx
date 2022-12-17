@@ -1,19 +1,15 @@
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import Head from 'next/head';
-import { EventCreate } from '../views/EventCreate';
+import { NextSeo } from 'next-seo';
+import { EventCreateView } from '../views';
 
 export default function Home() {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Head>
-        <title>Events | Toolbug</title>
-        <meta
-          name="description"
-          content="Say goodbye to Facebook events. This is a simple tool to create an event and share it with your friends via SMS, email, or any other messaging apps."
-        />
-      </Head>
-      <EventCreate />
+      <NextSeo description="Say goodbye to Facebook events. This is a simple tool to create an event and share it with your friends via SMS, email, or any other messaging apps." />
+      <main id="main">
+        <EventCreateView />
+      </main>
     </LocalizationProvider>
   );
 }

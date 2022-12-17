@@ -1,18 +1,18 @@
 import { Box, Paper, Typography } from '@mui/material';
 import { formatDistance } from 'date-fns';
-import { QuerySnapshot } from 'firebase/firestore';
 import { useSnackbar } from 'notistack';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { Post } from '../components';
 import { PostForm, PostFormValues as PostFormValues } from '../containers';
 import { usePosts } from '../hooks';
 import { PostData } from '../types/events';
 
-export interface TimelineDetailsProps {
+export interface TimelineViewProps {
   eventId: string;
-  data: QuerySnapshot<PostData>;
+  data: PostData[];
 }
 
-export function TimelineDetails({ eventId, data }: TimelineDetailsProps) {
+export function TimelineView({ eventId, data }: TimelineViewProps) {
   const { enqueueSnackbar } = useSnackbar();
   const { createPost } = usePosts();
 
@@ -20,7 +20,6 @@ export function TimelineDetails({ eventId, data }: TimelineDetailsProps) {
     control,
     handleSubmit,
     formState: { isSubmitting },
-    setValue,
     reset,
   } = useForm<PostFormValues>({
     defaultValues: {
@@ -42,23 +41,14 @@ export function TimelineDetails({ eventId, data }: TimelineDetailsProps) {
     }
   };
 
-  const timelineMarkup = data?.docs.map(post => {
-    const postData = post.data();
-
+  const timelineMarkup = data?.map(post => {
     return (
-      <Box
+      <Post
         key={post.id}
-        sx={{ borderLeft: 2, borderLeftColor: 'InactiveBorder', my: 2, pl: 1 }}
-      >
-        <Typography variant="body2">
-          {postData?.author}
-          {' - '}
-          {postData?.createdAt
-            ? formatDistance(postData.createdAt.toDate(), new Date())
-            : ''}
-        </Typography>
-        <Typography>{postData?.text}</Typography>
-      </Box>
+        author={post.author}
+        createdAt={post.createdAt.toDate()}
+        text={post.text}
+      />
     );
   });
 
