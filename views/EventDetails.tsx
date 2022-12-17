@@ -2,11 +2,11 @@ import {
   AccessTime,
   Event,
   MapOutlined,
-  NotificationAdd,
   People,
   Share,
   ThumbUp,
 } from '@mui/icons-material';
+import MuiMarkdown from 'mui-markdown';
 import {
   Alert,
   Box,
@@ -201,10 +201,12 @@ export function EventDetails({
                     </ListItem>
                   )}
                 </List>
-                <Typography variant="body1" component="p">
-                  {data?.description}
-                </Typography>
               </Paper>
+              {data?.description && (
+                <Paper sx={{ p: 2, mt: 2 }}>
+                  <MuiMarkdown>{data.description}</MuiMarkdown>
+                </Paper>
+              )}
             </Box>
           </section>
           <TimelineDetails eventId={id} data={postsData} />
