@@ -4,13 +4,16 @@ import * as logger from '../utilities/logger';
 
 export const eventChanged: ListenerChangeCallback = async ({ before }) => {
   const event = before.data();
-  const subscribers = await getSubscribers(event.id);
+
+  logger.info(`Getting subscribers for ${before.id}`);
+
+  const subscribers = await getSubscribers(before.id);
   const messagesRef = firestore().collection('messages');
 
   const sendMessages = subscribers.map(phone =>
     messagesRef.add({
       to: phone,
-      body: `${event.name} changed.\n\nSee https://events.toolbug.io/events/${event.id}`,
+      body: `${event.name} changed.\n\nSee https://events.toolbug.io/events/${before.id}`,
     }),
   );
 
@@ -21,7 +24,7 @@ export const eventChanged: ListenerChangeCallback = async ({ before }) => {
 
 async function getSubscribers(id: string): Promise<string[]> {
   const subscribersSnap = await firestore()
-    .collection(`events/${id}/subscribers`)
+    .collection(`/events/${id}/subscribers`)
     .get();
 
   return (

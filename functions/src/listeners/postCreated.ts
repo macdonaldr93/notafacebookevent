@@ -12,6 +12,9 @@ export const postCreated: ListenerCallback = async snapshot => {
   }
 
   const post = snapshot.data();
+
+  logger.info(`Getting subscribers for ${event.id}`);
+
   const subscribers = await getSubscribers(event.id);
   const messagesRef = firestore().collection('messages');
 
@@ -29,7 +32,7 @@ export const postCreated: ListenerCallback = async snapshot => {
 
 async function getSubscribers(id: string): Promise<string[]> {
   const subscribersSnap = await firestore()
-    .collection(`events/${id}/subscribers`)
+    .collection(`/events/${id}/subscribers`)
     .get();
 
   return (
